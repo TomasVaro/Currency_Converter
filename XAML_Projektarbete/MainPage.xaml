@@ -1,0 +1,177 @@
+﻿<Page
+    x:Class="XAML_Projektarbete.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:XAML_Projektarbete"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!-- Row 0 Title-->
+        <Grid Grid.Row="0"
+              VerticalAlignment="Top"
+              Margin="0 0 0 20"
+              Background="Black"
+              Height="110">
+            <Image Source="Images/euro.png"
+                       Width="Auto" Height="Auto"
+                       Margin="10"
+                       HorizontalAlignment="Left"/>
+            <Image Source="Images/dollar.png"
+                       Width="Auto" Height="Auto"
+                       Margin="15"
+                       HorizontalAlignment="Right"/>
+            <TextBlock Text="Valutaomräknare"
+                           HorizontalAlignment="Center"
+                           FontSize="70"
+                           Foreground="White"/>
+        </Grid>
+
+        <!-- Row 1 Hamburger-menue -->
+        <Grid Grid.Row="1"
+              HorizontalAlignment="Left">
+            <NavigationView x:Name="NavView"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            IsBackButtonVisible="Collapsed"
+                            IsSettingsVisible="False"
+                            IsPaneOpen="False"
+                            SelectionChanged="MenuSelected"
+                            PaneDisplayMode="LeftCompact"
+                            Width="Auto">
+                <NavigationView.MenuItems>
+                    <NavigationViewItem Icon="Home" Content="Valutaomräknare" Tag="home"/>
+
+                    <NavigationViewItem Content="Valutaomräknare" Tag="home">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xED56;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem Content="Lista på valutor" Tag="food">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE9BB;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem Content="Historiska valutakurser" Tag="food">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE7F0;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem Content="Lista på länder" Tag="food">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE909;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem Content="Historiska valutakurser" Tag="food">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE9D9;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                </NavigationView.MenuItems>
+                <Frame x:Name="ContentFrame"/>
+            </NavigationView>
+        </Grid>
+
+        <!-- Row 2 Rest -->
+        <Grid Grid.Row="1"
+              HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Row 0 From-To -->
+            <TextBlock Grid.Row="0"
+                       Grid.Column="1"
+                       Text="Växla från:" 
+                       FontSize="36"/>
+            <TextBlock Grid.Row="0"
+                       Grid.Column="3"
+                       Text="Växla till:"
+                       FontSize="36"/>
+            <!-- Row 1 ComboBoxes -->
+            <ComboBox x:Name="CurrenciesFrom"
+                      Grid.Row="1"
+                      Grid.Column="1"
+                      Width="Auto"
+                      Height="41"
+                      FontSize="22"
+                      CornerRadius="10"
+                      DropDownClosed="ChangeCurrency_OnDropDownClosed"/>
+            <Button Click="SwitchButton"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontSize="36"
+                    Content="&#xF1CB;"
+                    Margin="10 -5 20 0"
+                    HorizontalAlignment="Center"
+                    Background="White"
+                    CornerRadius="10"/>
+            <ComboBox x:Name="CurrenciesTo"
+                      Grid.Row="1"
+                      Grid.Column="3"
+                      Width="Auto"
+                      Height="41"
+                      FontSize="22"
+                      DisplayMemberPath="Id"
+                      CornerRadius="10"
+                      DropDownClosed="ChangeCurrency_OnDropDownClosed"/>
+            <!-- Row 2 Text Amount-->
+            <TextBlock Grid.Row="2"
+                       Grid.Column="1"
+                       Text="Belopp:" 
+                       FontSize="26"
+                       Margin="0 20 0 0"/>
+            <TextBlock Grid.Row="2"
+                       Grid.Column="3"
+                       Text="Belopp:"
+                       FontSize="26"
+                       Margin="0 20 0 0"/>
+            <!-- Row 3 Enter amount -->
+            <TextBox x:Name="AmountFrom"
+                     BeforeTextChanging="TextBox_OnBeforeTextChanging"
+                     Grid.Row="3"
+                     Grid.Column="1"
+                     HorizontalAlignment="Left"
+                     Width="376"
+                     Height="55"
+                     FontSize="36"
+                     CornerRadius="10"/>
+            <TextBox x:Name="AmountTo"
+                     Grid.Row="3"
+                     Grid.Column="3"
+                     HorizontalAlignment="Left"
+                     Width="350"
+                     Height="55"
+                     FontSize="36"
+                     CornerRadius="10"
+                     IsReadOnly="True"/>
+            <!-- Row 4 -->
+
+            <!-- Row 5 -->
+        </Grid>
+    </Grid>
+</Page>
