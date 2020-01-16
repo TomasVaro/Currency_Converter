@@ -14,7 +14,8 @@ namespace XAML_Projektarbete.DataProvider
 {
     public class ConvertDataProvider
     {
-        public async Task<Dictionary<string, Currency>> GetCurrencies(string apiKey)
+        private string apiKey = "37caa54a777a956b193b";
+        public async Task<Dictionary<string, Currency>> GetCurrencies()
         {
             string URL = $"https://free.currconv.com/api/v7/currencies?apiKey={apiKey}";
             Dictionary<string, Currency> currencyDictionary = new Dictionary<string, Currency>();
@@ -29,12 +30,12 @@ namespace XAML_Projektarbete.DataProvider
             }
             return currencyDictionary;
         }
-        public async Task<double> GetExchangeRate(string fromCurrency, string toCurrency, string apiKey)
+        public async Task<double> GetExchangeRate(string fromCurrency, string toCurrency)
         {
             string URL = $"https://free.currconv.com/api/v7/convert?q={fromCurrency}_{toCurrency}&compact=ultra&apiKey={apiKey}";
             var exchangeRate = 0.00;
             using (HttpResponseMessage response = await APIHelper.ApiClient.GetAsync(URL))
-            { 
+            {
                 if (response.IsSuccessStatusCode)
                 {
                     var result = response.Content.ReadAsStringAsync();
@@ -45,7 +46,7 @@ namespace XAML_Projektarbete.DataProvider
                         exchangeRate = (double)propertyValue;
                     }
                 }
-            }            
+            }
             return exchangeRate;
         }
     }
