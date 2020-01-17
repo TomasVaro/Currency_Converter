@@ -57,7 +57,7 @@ namespace XAML_Projektarbete
         private void TextBox_OnBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs e)
         {
             // Checks maximum AmountFrom length and allows only digits and dots
-            if (e.NewText.Length < 6 && e.NewText.All(c => char.IsDigit(c) || c == '.'))
+            if (e.NewText.Length < 11 && e.NewText.All(c => char.IsDigit(c) || c == '.'))
             {
                 if (AmountFrom.Text.Length == 0)
                 {

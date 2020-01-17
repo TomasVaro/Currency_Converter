@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Margin="20">
+    <Grid Margin="30">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -25,12 +25,12 @@
                    FontSize="36"/>
         <TextBlock Grid.Row="0"
                    Grid.Column="1"
-                   Text="Valuta-ID" 
+                   Text="Id" 
                    FontSize="36"
                    Margin=" 50 0 50 30"/>
         <TextBlock Grid.Row="0"
                    Grid.Column="2"
-                   Text="Valuta symbol" 
+                   Text="Symbol" 
                    FontSize="36"/>
 
         <!-- Row 1 From-To -->

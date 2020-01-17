@@ -1,9 +1,15 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace XAML_Projektarbete.Models
 {
+    public class CountriesRoot
+    {
+        [JsonProperty("results")]
+        public Dictionary<string, Countries> CurrencyResults { get; set; }
+    }
 
-    public class Country
+    public class Countries
     {
         [JsonProperty("alpha3")]
         public string Alpha3 { get; set; }

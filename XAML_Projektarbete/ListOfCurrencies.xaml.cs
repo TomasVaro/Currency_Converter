@@ -14,26 +14,21 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using XAML_Projektarbete.DataProvider;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace XAML_Projektarbete
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class ListOfCurrencies : Page
     {
-        private string apiKey = "37caa54a777a956b193b";
         public ListOfCurrencies()
         {
             this.InitializeComponent();
             getAllCurrencies();
         }
 
+        Dictionary<string, Models.Currency> currencies;
         private async void getAllCurrencies()
         {
             ConvertDataProvider cdp = new ConvertDataProvider();
-            var currencies = await cdp.GetCurrencies();
+            currencies = await cdp.GetCurrencies();
             ComboBoxItem currenciesAll;
 
             foreach (var cur in currencies.OrderBy(f => f.Value.CurrencyName))
@@ -49,7 +44,18 @@ namespace XAML_Projektarbete
 
         private void ShowCurrency_OnDropDownClosed(object sender, object e)
         {
+            ComboBoxItem selected = Currencies.SelectedItem as ComboBoxItem;
+            string selectedCurrency = selected.Content as String;
 
+            foreach (var cur in currencies.OrderBy(f => f.Value.CurrencyName))
+            {
+                if (cur.Value.CurrencyName == selectedCurrency)
+                {
+                    CurrencyId.Text = cur.Value.Id;
+                    CurrencySymbol.Text = cur.Value.CurrencySymbol ?? "Symbol saknas";
+                    break;
+                }
+            }
         }
     }
 }

@@ -39,7 +39,7 @@ namespace XAML_Projektarbete.DataProvider
                 if (response.IsSuccessStatusCode)
                 {
                     var result = response.Content.ReadAsStringAsync();
-                    var data = JsonConvert.DeserializeObject<DynamicClass>(result.Result);
+                    var data = JsonConvert.DeserializeObject<ConverterDynamicClass>(result.Result);
                     PropertyGet propertyGet = new PropertyGet($"{fromCurrency}_{toCurrency}", false);
                     if (data.TryGetMember(propertyGet, out object propertyValue))
                     {

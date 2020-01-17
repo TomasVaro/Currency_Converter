@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace XAML_Projektarbete.DataProvider
 {
-    class DynamicClass : DynamicObject
+    class ConverterDynamicClass : DynamicObject
     {
         private Dictionary<string, object> _properties;
-        public DynamicClass() => _properties = new Dictionary<string, object>();
+        public ConverterDynamicClass() => _properties = new Dictionary<string, object>();
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             string propertyName = binder.Name.ToLower();
