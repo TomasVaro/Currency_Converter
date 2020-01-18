@@ -14,13 +14,13 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <!--<RowDefinition Height="Auto"/>-->
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        
         <!-- Row 0 From-To -->
         <TextBlock Grid.Row="0"
                     Grid.Column="0"
@@ -30,7 +30,8 @@
                     Grid.Column="3"
                     Text="Växla till:"
                     FontSize="36"/>
-        <!-- Row 1 ComboBoxes -->
+        
+        <!-- Row 1 ComboBoxes & SwitchButton-->
         <ComboBox x:Name="CurrenciesFrom"
                     Grid.Row="1"
                     Grid.Column="0"
@@ -58,7 +59,8 @@
                     DisplayMemberPath="Id"
                     CornerRadius="10"
                     DropDownClosed="ChangeCurrency_OnDropDownClosed"/>
-        <!-- Row 2 Text Amount-->
+        
+        <!-- Row 2 TextBlock Amount-->
         <TextBlock Grid.Row="2"
                     Grid.Column="0"
                     Text="Belopp:" 
@@ -69,6 +71,7 @@
                     Text="Belopp:"
                     FontSize="26"
                     Margin="0 20 0 0"/>
+        
         <!-- Row 3 Enter amount -->
         <TextBox x:Name="AmountFrom"
                     BeforeTextChanging="TextBox_OnBeforeTextChanging"
@@ -86,9 +89,5 @@
                     FontSize="36"
                     CornerRadius="10"
                     IsReadOnly="True"/>
-        <!-- Row 4 -->
-
-        <!-- Row 5 -->
-
     </Grid>
 </Page>

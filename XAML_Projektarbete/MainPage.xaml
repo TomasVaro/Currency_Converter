@@ -14,7 +14,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <!-- Row 0 Title-->
+        <!-- Row 0 Header-->
         <Grid Grid.Row="0"
               VerticalAlignment="Top"
               Background="Black"
@@ -55,7 +55,7 @@
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
-                    <NavigationViewItem Content="Lista på länder" Tag="countries">
+                    <NavigationViewItem Content="Länder och valutor" Tag="countries">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xE909;"/>
                         </NavigationViewItem.Icon>

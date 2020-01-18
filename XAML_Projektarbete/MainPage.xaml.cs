@@ -26,6 +26,7 @@ namespace XAML_Projektarbete
         public MainPage()
         {
             this.InitializeComponent();
+            APIHelper.InitilizedClient();
             ContentFrame.Navigate(typeof(CurrencyConverter));
             NavigationView.Header = "Valutaomräknare";
         }

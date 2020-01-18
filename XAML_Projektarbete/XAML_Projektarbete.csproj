@@ -124,8 +124,8 @@
     </Compile>
     <Compile Include="DataProvider\APIHelper.cs" />
     <Compile Include="DataProvider\ConvertDataProvider.cs" />
+    <Compile Include="DataProvider\CountryDataProvider.cs" />
     <Compile Include="Models\ConverterDynamicClass.cs" />
-    <Compile Include="Enums\CurrencyType.cs" />
     <Compile Include="HistoricalExchangeRates.xaml.cs">
       <DependentUpon>HistoricalExchangeRates.xaml</DependentUpon>
     </Compile>

@@ -8,7 +8,87 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Grid Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Row 0 TextBlocks -->
+        <TextBlock Grid.Row="0"
+                   Grid.Column="0"
+                   Text="Land" 
+                   FontSize="36"/>
+        <TextBlock Grid.Row="0"
+                   Grid.Column="1"
+                   Text="Landskod" 
+                   FontSize="36"
+                   Margin=" 50 0 50 15"/>
+        <TextBlock Grid.Row="0"
+                   Grid.Column="2"
+                   Text="Landsid" 
+                   FontSize="36"/>
 
+        <!-- Row 1 ComboBox and results for Countries -->
+        <ComboBox x:Name="CountryName"
+                  Grid.Row="1"
+                  Grid.Column="0"
+                  HorizontalAlignment="Stretch"
+                  Height="41"
+                  FontSize="22"
+                  CornerRadius="10"
+                  DropDownClosed="ShowCountries_OnDropDownClosed"/>
+        <TextBlock x:Name="CountryCode"
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   Height="41"
+                   Margin="55 0 0 0"
+                   FontSize="22"/>
+        <TextBlock x:Name="CountryId"
+                   Grid.Row="1"
+                   Grid.Column="2"
+                   Height="41"
+                   Margin="5 0 0 0"
+                   FontSize="22"/>
+        
+        <!-- Row 2 TextBlocks Titles -->
+        <TextBlock Grid.Row="2"
+                   Grid.Column="0"
+                   Text="Valuta" 
+                   FontSize="36"
+                   Margin=" 0 50 0 15"/>
+        <TextBlock Grid.Row="2"
+                   Grid.Column="1"
+                   Text="Valutaid" 
+                   FontSize="36"
+                   Margin=" 50 50 50 15"/>
+        <TextBlock Grid.Row="2"
+                   Grid.Column="2"
+                   Text="Valutasymbol" 
+                   FontSize="36"
+                   Margin=" 0 50 0 15"/>
+        
+        <!-- Row 3 TextBlock Currencies -->
+        <TextBlock  x:Name="CurrencyName"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    FontSize="22"/>
+        <TextBlock  x:Name="CurrencyId"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    FontSize="22"
+                    Margin="55 0 0 0"/>
+        <TextBlock  x:Name="CurrencySymbol"
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    FontSize="22"
+                    Margin="5 0 0 0"/>
     </Grid>
 </Page>

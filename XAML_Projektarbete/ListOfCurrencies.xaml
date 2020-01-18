@@ -14,11 +14,12 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <!-- Row 0 From-To -->
+        
+        <!-- Row 0 TextBlock -->
         <TextBlock Grid.Row="0"
                    Grid.Column="0"
                    Text="Valutanamn" 
@@ -33,7 +34,7 @@
                    Text="Symbol" 
                    FontSize="36"/>
 
-        <!-- Row 1 From-To -->
+        <!-- Row 1 ComboBox and results -->
         <ComboBox x:Name="Currencies"
                   Grid.Row="1"
                   Grid.Column="0"

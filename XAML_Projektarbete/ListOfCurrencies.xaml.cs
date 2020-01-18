@@ -36,7 +36,7 @@ namespace XAML_Projektarbete
                 currenciesAll = new ComboBoxItem { Content = cur.Value.CurrencyName };
                 Currencies.Items.Add(currenciesAll);
             }
-            Currencies.SelectedIndex = 0; // Väljer default valuta
+            Currencies.SelectedIndex = 0;
             var firstCurrency = currencies.OrderBy(kvp => kvp.Value.CurrencyName).First();
             CurrencyId.Text = firstCurrency.Value.Id;
             CurrencySymbol.Text = firstCurrency.Value.CurrencySymbol;

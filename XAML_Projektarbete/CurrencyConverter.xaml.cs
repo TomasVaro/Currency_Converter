@@ -21,7 +21,6 @@ namespace XAML_Projektarbete
         public CurrencyConverter()
         {
             this.InitializeComponent();
-            APIHelper.InitilizedClient();
             //CurrenciesFrom.SelectionChangedTrigger = ComboBoxSelectionChangedTrigger.Committed;
             //CurrenciesTo.SelectionChangedTrigger = ComboBoxSelectionChangedTrigger.Committed;
             getCurrencies();
@@ -109,7 +108,14 @@ namespace XAML_Projektarbete
             // Checks if AmountFrom textbox is empty or not
             else if (double.TryParse(amount, out double result))
             {
-                AmountTo.Text = (result * exchangeRate).ToString();
+                if (result * exchangeRate > 0.0099)
+                {
+                    AmountTo.Text = Math.Round((result * exchangeRate), 2).ToString();
+                }
+                else
+                {
+                    AmountTo.Text = (result * exchangeRate).ToString();
+                }
             }
             else
             {
