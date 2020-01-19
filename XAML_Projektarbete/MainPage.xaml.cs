@@ -27,8 +27,9 @@ namespace XAML_Projektarbete
         {
             this.InitializeComponent();
             APIHelper.InitilizedClient();
-            ContentFrame.Navigate(typeof(CurrencyConverter));
-            NavigationView.Header = "Valutaomräknare";
+            //ContentFrame.Navigate(typeof(CurrencyConverter));
+            ContentFrame.Content = "\n  Välkommen till Valutaguiden! \n \n  Välj ett av alternativen i menyn till vänster";
+            ContentFrame.FontSize = 40;
         }
 
         private void MenuSelected(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -46,7 +47,7 @@ namespace XAML_Projektarbete
                     break;
                 case "countries":
                     ContentFrame.Navigate(typeof(ListOfCountries));
-                    NavigationView.Header = "Lista på länder";
+                    NavigationView.Header = "Länder och valutor";
                     break;
                 case "historical":
                     ContentFrame.Navigate(typeof(HistoricalExchangeRates));

@@ -108,13 +108,14 @@ namespace XAML_Projektarbete
             // Checks if AmountFrom textbox is empty or not
             else if (double.TryParse(amount, out double result))
             {
-                if (result * exchangeRate > 0.0099)
+                if (result * exchangeRate > 0.01)
                 {
-                    AmountTo.Text = Math.Round((result * exchangeRate), 2).ToString();
+                    AmountTo.Text = string.Format("{0:#,###0.00}", result * exchangeRate);
                 }
                 else
                 {
-                    AmountTo.Text = (result * exchangeRate).ToString();
+                    decimal resultInDecimal = (decimal)(result * exchangeRate);
+                    AmountTo.Text = resultInDecimal.ToString();
                 }
             }
             else
