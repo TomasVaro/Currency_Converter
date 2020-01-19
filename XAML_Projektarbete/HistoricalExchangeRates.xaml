@@ -24,11 +24,11 @@
         <!-- Row 0 From-To -->
         <TextBlock Grid.Row="0"
                     Grid.Column="0"
-                    Text="Växla från:" 
+                    Text="Valuta 1" 
                     FontSize="36"/>
         <TextBlock Grid.Row="0"
                     Grid.Column="3"
-                    Text="Växla till:"
+                    Text="Valuta 2"
                     FontSize="36"/>
 
          <!--Row 1 ComboBoxes & SwitchButton-->
