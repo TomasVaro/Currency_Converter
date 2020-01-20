@@ -14,18 +14,14 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using XAML_Projektarbete.DataProvider;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace XAML_Projektarbete
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class HistoricalExchangeRates : Page
     {
         public HistoricalExchangeRates()
         {
             this.InitializeComponent();
+            DatePicker.PlaceholderText = (DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day).ToString();
             getCurrencies();
         }
 
@@ -65,7 +61,7 @@ namespace XAML_Projektarbete
                 {
                     AmountFrom.Select(e.NewText.Length, 0);   //Sets cursor at the end of textbox
                 }
-                ConvertCurrency(e.NewText);
+                ConvertCurrency(e.NewText, DatePicker.PlaceholderText);
             }
             else
             {
@@ -78,46 +74,46 @@ namespace XAML_Projektarbete
             int currencyFrom = CurrenciesTo.SelectedIndex;
             CurrenciesTo.SelectedIndex = CurrenciesFrom.SelectedIndex;
             CurrenciesFrom.SelectedIndex = currencyFrom;
-            ConvertCurrency(AmountFrom.Text);
+            ConvertCurrency(AmountFrom.Text, DatePicker.PlaceholderText);
         }
 
 
         string lastFromCurrency = string.Empty;
         string lastToCurrency = string.Empty;
+        string lastDate = string.Empty;
         double exchangeRate;
-        private async void ConvertCurrency(string amount)
+        private async void ConvertCurrency(string amount, string date)
         {
             ComboBoxItem from = CurrenciesFrom.SelectedItem as ComboBoxItem;
-            string fromCurrency = from.Content as String;
-            fromCurrency = fromCurrency.Substring(0, 3);
+            string fromCurrency = (from.Content as String).Substring(0, 3);
 
             ComboBoxItem to = CurrenciesTo.SelectedItem as ComboBoxItem;
-            string toCurrencyLong = to.Content as String;
-            string toCurrency = toCurrencyLong.Substring(0, 3);
+            string toCurrency = (to.Content as String).Substring(0, 3);
 
             ConvertDataProvider cdp = new ConvertDataProvider();
-            if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) && (fromCurrency != toCurrency))
+            if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) && (fromCurrency != toCurrency) || (date != lastDate))
             {
-                exchangeRate = await cdp.GetExchangeRate(fromCurrency, toCurrency);
+                exchangeRate = await cdp.GetHistoricalExchangeRate(fromCurrency, toCurrency, date);
                 lastFromCurrency = fromCurrency;
                 lastToCurrency = toCurrency;
+                lastDate = date;
             }
-
 
             if (fromCurrency == toCurrency)
             {
-                AmountTo.Text = AmountFrom.Text;
+                AmountTo.Text = amount;
             }
             // Checks if AmountFrom textbox is empty or not
             else if (double.TryParse(amount, out double result))
             {
-                if (result * exchangeRate > 0.0099)
+                if (result * exchangeRate > 0.01)
                 {
-                    AmountTo.Text = string.Format("{0:#,###0.00}",result * exchangeRate);
+                    AmountTo.Text = string.Format("{0:#,###0.00}", result * exchangeRate);
                 }
                 else
                 {
-                    AmountTo.Text = (result * exchangeRate).ToString();
+                    decimal resultInDecimal = (decimal)(result * exchangeRate);
+                    AmountTo.Text = resultInDecimal.ToString();
                 }
             }
             else
@@ -131,13 +127,15 @@ namespace XAML_Projektarbete
         {
             if (AmountFrom.Text != string.Empty)
             {
-                ConvertCurrency(AmountFrom.Text);
+                ConvertCurrency(AmountFrom.Text, DatePicker.PlaceholderText);
             }
         }
 
         private void CalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
-
+            var dateTime = (DateTimeOffset)(DatePicker.Date).Value.Date;
+            string date = (dateTime.Year + "-" + dateTime.Month + "-" + dateTime.Day).ToString();
+            ConvertCurrency(AmountFrom.Text, date);
         }
     }
 }

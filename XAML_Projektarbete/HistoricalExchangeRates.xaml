@@ -81,14 +81,14 @@
                     Height="55"
                     FontSize="36"
                     CornerRadius="10"/>
-        <CalendarDatePicker x:Name="Date"
+        <CalendarDatePicker x:Name="DatePicker"
                             Grid.Row="3"
                             Grid.Column="1"
                             FontSize="30"
                             Margin="15 0"
                             HorizontalAlignment="Center"
                             PlaceholderText="Välj datum"
-                            DateFormat="{}{day.integer}/{month.integer}/{year.full}"
+                            DateFormat="{}{year.full}-{month.integer}-{day.integer}"
                             DateChanged="CalendarDatePicker_DateChanged"/>
         <TextBox x:Name="AmountTo"
                     Grid.Row="3"

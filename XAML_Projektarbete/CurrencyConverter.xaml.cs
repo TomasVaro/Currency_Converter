@@ -85,11 +85,9 @@ namespace XAML_Projektarbete
         private async void ConvertCurrency(string amount)
         {
             ComboBoxItem from = CurrenciesFrom.SelectedItem as ComboBoxItem;
-            //string fromCurrencyLong = from.Content as String;
             string fromCurrency = (from.Content as String).Substring(0, 3);
 
             ComboBoxItem to = CurrenciesTo.SelectedItem as ComboBoxItem;
-            //string toCurrencyLong = to.Content as String;
             string toCurrency = (to.Content as String).Substring(0, 3);
 
             ConvertDataProvider cdp = new ConvertDataProvider();
@@ -99,7 +97,6 @@ namespace XAML_Projektarbete
                 lastFromCurrency = fromCurrency;
                 lastToCurrency = toCurrency;
             }
-
 
             if (fromCurrency == toCurrency)
             {
