@@ -24,12 +24,13 @@ namespace XAML_Projektarbete.DataProvider
                 if (response.IsSuccessStatusCode)
                 {
                     var result = response.Content.ReadAsStringAsync();
-                    var data = JsonConvert.DeserializeObject<CurrenciesRoot>(result.Result);  // Deserialize omvandlar Json till objekt som C# kan använda
+                    var data = JsonConvert.DeserializeObject<CurrenciesRoot>(result.Result);
                     currencyDictionary = data.CurrencyResults;
                 }
             }
             return currencyDictionary;
         }
+
         public async Task<double> GetExchangeRate(string fromCurrency, string toCurrency)
         {
             string URL = $"https://free.currconv.com/api/v7/convert?q={fromCurrency}_{toCurrency}&compact=ultra&apiKey={apiKey}";
@@ -38,17 +39,14 @@ namespace XAML_Projektarbete.DataProvider
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = response.Content.ReadAsStringAsync();
-                    var data = JsonConvert.DeserializeObject<ConverterDynamicClass>(result.Result);
-                    PropertyGet propertyGet = new PropertyGet($"{fromCurrency}_{toCurrency}", false);
-                    if (data.TryGetMember(propertyGet, out object propertyValue))
-                    {
-                        exchangeRate = (double)propertyValue;
-                    }
+                    var result = await response.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<JObject>(result);
+                    exchangeRate = data.First.ToObject<double>();
                 }
             }
             return exchangeRate;
         }
+
         public async Task<double> GetHistoricalExchangeRate(string fromCurrency, string toCurrency, string date)
         {
             string URL = $"https://free.currconv.com/api/v7/convert?apiKey=37caa54a777a956b193b&q={fromCurrency}_{toCurrency}&compact=ultra&date={date}";
@@ -60,17 +58,6 @@ namespace XAML_Projektarbete.DataProvider
                     var result = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<JObject>(result);
                     exchangeRate = data.First.First.First.ToObject<double>();
-                    //var data = JsonConvert.DeserializeObject<ConverterDynamicClass>(result);
-                    //PropertyGet propertyGet = new PropertyGet($"{fromCurrency}_{toCurrency}", false);
-                    //if (data.TryGetMember(propertyGet, out object propertyValue))
-                    //{
-                    //    if ((propertyValue as ConverterDynamicClass).TryGetMember(propertyGet, out object property))
-                    //    {
-
-                            
-                    //        //exchangeRate = ((double)property).;
-                    //    }
-                    //}
                 }
             }
             return exchangeRate;

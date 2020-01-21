@@ -87,8 +87,8 @@
                             FontSize="30"
                             Margin="15 0"
                             HorizontalAlignment="Center"
-                            PlaceholderText="Välj datum"
                             DateFormat="{}{year.full}-{month.integer}-{day.integer}"
+                            FirstDayOfWeek="Monday"
                             DateChanged="CalendarDatePicker_DateChanged"/>
         <TextBox x:Name="AmountTo"
                     Grid.Row="3"

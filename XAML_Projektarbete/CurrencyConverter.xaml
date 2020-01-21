@@ -16,22 +16,22 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        
+
         <!-- Row 0 From-To -->
         <TextBlock Grid.Row="0"
                     Grid.Column="0"
-                    Text="Växla från:" 
+                    Text="Valuta 1" 
                     FontSize="36"/>
         <TextBlock Grid.Row="0"
                     Grid.Column="3"
-                    Text="Växla till:"
+                    Text="Valuta 2"
                     FontSize="36"/>
-        
-        <!-- Row 1 ComboBoxes & SwitchButton-->
+
+        <!--Row 1 ComboBoxes & SwitchButton-->
         <ComboBox x:Name="CurrenciesFrom"
                     Grid.Row="1"
                     Grid.Column="0"
@@ -59,8 +59,8 @@
                     DisplayMemberPath="Id"
                     CornerRadius="10"
                     DropDownClosed="ChangeCurrency_OnDropDownClosed"/>
-        
-        <!-- Row 2 TextBlock Amount-->
+
+        <!--Row 2 TextBlock Amount-->
         <TextBlock Grid.Row="2"
                     Grid.Column="0"
                     Text="Belopp:" 
@@ -71,8 +71,8 @@
                     Text="Belopp:"
                     FontSize="26"
                     Margin="0 20 0 0"/>
-        
-        <!-- Row 3 Enter amount -->
+
+        <!--Row 3 Enter amount-->
         <TextBox x:Name="AmountFrom"
                     BeforeTextChanging="TextBox_OnBeforeTextChanging"
                     Grid.Row="3"
@@ -81,6 +81,15 @@
                     Height="55"
                     FontSize="36"
                     CornerRadius="10"/>
+        <CalendarDatePicker x:Name="DatePicker"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            FontSize="30"
+                            Margin="15 0"
+                            HorizontalAlignment="Center"
+                            DateFormat="{}{year.full}-{month.integer}-{day.integer}"
+                            FirstDayOfWeek="Monday"
+                            DateChanged="CalendarDatePicker_DateChanged"/>
         <TextBox x:Name="AmountTo"
                     Grid.Row="3"
                     Grid.Column="2"

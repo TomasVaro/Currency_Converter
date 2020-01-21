@@ -18,11 +18,16 @@ namespace XAML_Projektarbete
 {
     public sealed partial class CurrencyConverter : Page
     {
+        string lastFromCurrency = string.Empty;
+        string lastToCurrency = string.Empty;
+        string lastDate = string.Empty;
+        double exchangeRate;
+        DateTimeOffset lastDateTime = new DateTimeOffset();
+
         public CurrencyConverter()
         {
             this.InitializeComponent();
-            //CurrenciesFrom.SelectionChangedTrigger = ComboBoxSelectionChangedTrigger.Committed;
-            //CurrenciesTo.SelectionChangedTrigger = ComboBoxSelectionChangedTrigger.Committed;
+            DatePicker.PlaceholderText = (DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day).ToString();
             getCurrencies();
         }
 
@@ -62,7 +67,7 @@ namespace XAML_Projektarbete
                 {
                     AmountFrom.Select(e.NewText.Length, 0);   //Sets cursor at the end of textbox
                 }
-                ConvertCurrency(e.NewText);
+                ConvertCurrency(e.NewText, DatePicker.PlaceholderText);
             }
             else
             {
@@ -75,14 +80,10 @@ namespace XAML_Projektarbete
             int currencyFrom = CurrenciesTo.SelectedIndex;
             CurrenciesTo.SelectedIndex = CurrenciesFrom.SelectedIndex;
             CurrenciesFrom.SelectedIndex = currencyFrom;
-            ConvertCurrency(AmountFrom.Text);
+            ConvertCurrency(AmountFrom.Text, DatePicker.PlaceholderText);
         }
-
-
-        string lastFromCurrency = string.Empty;
-        string lastToCurrency = string.Empty;
-        double exchangeRate;
-        private async void ConvertCurrency(string amount)
+        
+        private async void ConvertCurrency(string amount, string date)
         {
             ComboBoxItem from = CurrenciesFrom.SelectedItem as ComboBoxItem;
             string fromCurrency = (from.Content as String).Substring(0, 3);
@@ -91,9 +92,10 @@ namespace XAML_Projektarbete
             string toCurrency = (to.Content as String).Substring(0, 3);
 
             ConvertDataProvider cdp = new ConvertDataProvider();
-            if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) && (fromCurrency != toCurrency))
+            if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) && (fromCurrency != toCurrency) || (date != lastDate))
             {
-                exchangeRate = await cdp.GetExchangeRate(fromCurrency, toCurrency);
+                lastDate = date;
+                exchangeRate = await cdp.GetHistoricalExchangeRate(fromCurrency, toCurrency, date);
                 lastFromCurrency = fromCurrency;
                 lastToCurrency = toCurrency;
             }
@@ -126,8 +128,33 @@ namespace XAML_Projektarbete
         {
             if (AmountFrom.Text != string.Empty)
             {
-                ConvertCurrency(AmountFrom.Text);
+                ConvertCurrency(AmountFrom.Text, DatePicker.PlaceholderText);
             }
+        }
+
+        private void CalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+            if (DatePicker.Date != null)
+            {
+                var dateTime = (DateTimeOffset)(DatePicker.Date).Value.Date;
+                if (dateTime != lastDateTime)
+                {
+                    if (dateTime < DateTime.Today.AddDays(-365))
+                    {
+                        dateTime = DateTime.Now.AddDays(-365);
+                        DatePicker.Date = dateTime;
+                    }
+                    else if (dateTime > DateTime.Now)
+                    {
+                        dateTime = DateTime.Today;
+                        DatePicker.Date = dateTime;
+                    }
+                    lastDateTime = dateTime;
+                    string date = (dateTime.Year + "-" + dateTime.Month + "-" + dateTime.Day).ToString();
+                    DatePicker.PlaceholderText = date;
+                    ConvertCurrency(AmountFrom.Text, date);
+                }
+            }            
         }
     }
 }

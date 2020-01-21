@@ -93,10 +93,10 @@ namespace XAML_Projektarbete
             ConvertDataProvider cdp = new ConvertDataProvider();
             if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) && (fromCurrency != toCurrency) || (date != lastDate))
             {
+                lastDate = date;
                 exchangeRate = await cdp.GetHistoricalExchangeRate(fromCurrency, toCurrency, date);
                 lastFromCurrency = fromCurrency;
                 lastToCurrency = toCurrency;
-                lastDate = date;
             }
 
             if (fromCurrency == toCurrency)
@@ -133,9 +133,18 @@ namespace XAML_Projektarbete
 
         private void CalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
-            var dateTime = (DateTimeOffset)(DatePicker.Date).Value.Date;
-            string date = (dateTime.Year + "-" + dateTime.Month + "-" + dateTime.Day).ToString();
-            ConvertCurrency(AmountFrom.Text, date);
+            if(DatePicker.Date != null)
+            {
+                var dateTime = (DateTimeOffset)(DatePicker.Date).Value.Date;
+                if (dateTime < DateTime.Now.AddDays(-366))
+                {
+                    dateTime = DateTime.Now.AddDays(-365);
+                    DatePicker.Date = DateTime.Today.AddDays(-365);
+                }
+                string date = (dateTime.Year + "-" + dateTime.Month + "-" + dateTime.Day).ToString();
+                DatePicker.PlaceholderText = date;
+                ConvertCurrency(AmountFrom.Text, date);
+            }
         }
     }
 }
