@@ -33,7 +33,7 @@ namespace XAML_Projektarbete
 
         private async void getCurrencies()
         {
-            ConvertDataProvider cdp = new ConvertDataProvider();
+            CurrencyDataProvider cdp = new CurrencyDataProvider();
             var currencies = await cdp.GetCurrencies();
             ComboBoxItem currenciesFrom;
             ComboBoxItem currenciesTo;
@@ -91,11 +91,11 @@ namespace XAML_Projektarbete
             ComboBoxItem to = CurrenciesTo.SelectedItem as ComboBoxItem;
             string toCurrency = (to.Content as String).Substring(0, 3);
 
-            ConvertDataProvider cdp = new ConvertDataProvider();
+            ExchangeRateDataProvider cdp = new ExchangeRateDataProvider();
             if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) && (fromCurrency != toCurrency) || (date != lastDate))
             {
                 lastDate = date;
-                exchangeRate = await cdp.GetHistoricalExchangeRate(fromCurrency, toCurrency, date);
+                exchangeRate = await cdp.GetExchangeRate(fromCurrency, toCurrency, date);
                 lastFromCurrency = fromCurrency;
                 lastToCurrency = toCurrency;
             }

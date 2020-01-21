@@ -49,6 +49,10 @@ namespace XAML_Projektarbete
                     ContentFrame.Navigate(typeof(ListOfCountries));
                     NavigationView.Header = "Länder och valutor";
                     break;
+                case "currenciesCountries":
+                    ContentFrame.Navigate(typeof(CurrenciesCountries));
+                    NavigationView.Header = "Valutor och länder";
+                    break;
                 case "historical":
                     ContentFrame.Navigate(typeof(HistoricalExchangeRates));
                     NavigationView.Header = "Historiska valutakurser";

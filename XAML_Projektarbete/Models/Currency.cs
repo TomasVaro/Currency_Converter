@@ -19,5 +19,4 @@ namespace XAML_Projektarbete.Models
         [JsonProperty("id")]
         public string Id { get; set; }
     }
-
 }

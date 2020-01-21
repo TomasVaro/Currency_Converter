@@ -61,6 +61,12 @@
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
+                    <NavigationViewItem Content="Valutor och länder" Tag="currenciesCountries">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE909;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
                     <NavigationViewItem Content="Historiska valutakurser" Tag="historical">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xE9D9;"/>

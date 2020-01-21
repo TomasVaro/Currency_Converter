@@ -13,7 +13,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -23,23 +22,23 @@
 
         <!-- Row 0 From-To -->
         <TextBlock Grid.Row="0"
-                    Grid.Column="0"
-                    Text="Valuta 1" 
-                    FontSize="36"/>
+                   Grid.Column="0"
+                   Text="Valuta 1" 
+                   FontSize="36"/>
         <TextBlock Grid.Row="0"
-                    Grid.Column="3"
-                    Text="Valuta 2"
-                    FontSize="36"/>
+                   Grid.Column="3"
+                   Text="Valuta 2"
+                   FontSize="36"/>
 
          <!--Row 1 ComboBoxes & SwitchButton-->
         <ComboBox x:Name="CurrenciesFrom"
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    HorizontalAlignment="Stretch"
-                    Height="41"
-                    FontSize="22"
-                    CornerRadius="10"
-                    DropDownClosed="ChangeCurrency_OnDropDownClosed"/>
+                  Grid.Row="1"
+                  Grid.Column="0"
+                  HorizontalAlignment="Stretch"
+                  Height="41"
+                  FontSize="22"
+                  CornerRadius="10"
+                  DropDownClosed="ChangeCurrency_OnDropDownClosed"/>
         <Button Click="SwitchButton"
                 Grid.Row="1"
                 Grid.Column="1"
@@ -51,52 +50,33 @@
                 Background="White"
                 CornerRadius="10"/>
         <ComboBox x:Name="CurrenciesTo"
-                    Grid.Row="1"
-                    Grid.Column="3"
-                    HorizontalAlignment="Stretch"
-                    Height="41"
-                    FontSize="22"
-                    DisplayMemberPath="Id"
-                    CornerRadius="10"
-                    DropDownClosed="ChangeCurrency_OnDropDownClosed"/>
+                  Grid.Row="1"
+                  Grid.Column="3"
+                  HorizontalAlignment="Stretch"
+                  Height="41"
+                  FontSize="22"
+                  DisplayMemberPath="Id"
+                  CornerRadius="10"
+                  DropDownClosed="ChangeCurrency_OnDropDownClosed"/>
 
-         <!--Row 2 TextBlock Amount-->
-        <TextBlock Grid.Row="2"
-                    Grid.Column="0"
-                    Text="Belopp:" 
-                    FontSize="26"
-                    Margin="0 20 0 0"/>
-        <TextBlock Grid.Row="2"
-                    Grid.Column="3"
-                    Text="Belopp:"
-                    FontSize="26"
-                    Margin="0 20 0 0"/>
-
-         <!--Row 3 Enter amount--> 
-        <TextBox x:Name="AmountFrom"
-                    BeforeTextChanging="TextBox_OnBeforeTextChanging"
-                    Grid.Row="3"
-                    Grid.Column="0"
-                    HorizontalAlignment="Stretch"
-                    Height="55"
-                    FontSize="36"
-                    CornerRadius="10"/>
+        <!--Row 2 TextBlock Amount-->
         <CalendarDatePicker x:Name="DatePicker"
-                            Grid.Row="3"
-                            Grid.Column="1"
+                            Grid.Row="2"
+                            Grid.Column="0"
                             FontSize="30"
-                            Margin="15 0"
+                            Margin="0 30 0 0"
                             HorizontalAlignment="Center"
                             DateFormat="{}{year.full}-{month.integer}-{day.integer}"
                             FirstDayOfWeek="Monday"
                             DateChanged="CalendarDatePicker_DateChanged"/>
         <TextBox x:Name="AmountTo"
-                    Grid.Row="3"
-                    Grid.Column="2"
-                    HorizontalAlignment="Stretch"
-                    Height="55"
-                    FontSize="36"
-                    CornerRadius="10"
-                    IsReadOnly="True"/>
+                 Grid.Row="2"
+                 Grid.Column="2"
+                 HorizontalAlignment="Stretch"
+                 Height="55"
+                 FontSize="36"
+                 Margin="0 30 0 0"
+                 CornerRadius="10"
+                 IsReadOnly="True"/>
     </Grid>
 </Page>

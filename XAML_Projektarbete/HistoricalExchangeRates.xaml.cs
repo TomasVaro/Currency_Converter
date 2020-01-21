@@ -18,16 +18,21 @@ namespace XAML_Projektarbete
 {
     public sealed partial class HistoricalExchangeRates : Page
     {
+        DateTimeOffset lastEndDateTime = new DateTimeOffset();
+        DateTimeOffset fromDateTime = new DateTimeOffset();
+        DateTimeOffset endDateTime = new DateTimeOffset();
+
         public HistoricalExchangeRates()
         {
             this.InitializeComponent();
-            DatePicker.PlaceholderText = (DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day).ToString();
+            //DatePicker.PlaceholderText = (DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day).ToString();
+            DatePicker.Date = DateTime.Now;
             getCurrencies();
         }
 
         private async void getCurrencies()
         {
-            ConvertDataProvider cdp = new ConvertDataProvider();
+            CurrencyDataProvider cdp = new CurrencyDataProvider();
             var currencies = await cdp.GetCurrencies();
             ComboBoxItem currenciesFrom;
             ComboBoxItem currenciesTo;
@@ -49,24 +54,8 @@ namespace XAML_Projektarbete
             }
             CurrenciesFrom.SelectedIndex = 156; // Väljer default valuta
             CurrenciesTo.SelectedIndex = 143;
-            AmountFrom.Focus(FocusState.Programmatic);  //Sets focus on Textbox AmountFrom
-        }
-
-        private void TextBox_OnBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs e)
-        {
-            // Checks maximum AmountFrom length and allows only digits and dots
-            if (e.NewText.Length < 11 && e.NewText.All(c => char.IsDigit(c) || c == '.'))
-            {
-                if (AmountFrom.Text.Length == 0)
-                {
-                    AmountFrom.Select(e.NewText.Length, 0);   //Sets cursor at the end of textbox
-                }
-                ConvertCurrency(e.NewText, DatePicker.PlaceholderText);
-            }
-            else
-            {
-                e.Cancel = true;
-            }
+            //DatePicker.Focus(FocusState.Programmatic);  //Sets focus on Textbox AmountFrom
+            ListExchangeRates();
         }
 
         private void SwitchButton(object sender, RoutedEventArgs e)
@@ -74,76 +63,66 @@ namespace XAML_Projektarbete
             int currencyFrom = CurrenciesTo.SelectedIndex;
             CurrenciesTo.SelectedIndex = CurrenciesFrom.SelectedIndex;
             CurrenciesFrom.SelectedIndex = currencyFrom;
-            ConvertCurrency(AmountFrom.Text, DatePicker.PlaceholderText);
         }
-
 
         string lastFromCurrency = string.Empty;
         string lastToCurrency = string.Empty;
         string lastDate = string.Empty;
-        double exchangeRate;
-        private async void ConvertCurrency(string amount, string date)
+        Dictionary<string, Object> exchangeRates = new Dictionary<string, Object>();
+        private async void ListExchangeRates()
         {
+            fromDateTime = (DatePicker.Date).Value.Date.AddDays(-8);
+            string fromDate = (fromDateTime.Year + "-" + fromDateTime.Month + "-" + fromDateTime.Day).ToString();
+
+            endDateTime = (DatePicker.Date).Value.Date;
+            string endDate = (endDateTime.Year + "-" + endDateTime.Month + "-" + endDateTime.Day).ToString();
+
+            DatePicker.PlaceholderText = endDate;
+
             ComboBoxItem from = CurrenciesFrom.SelectedItem as ComboBoxItem;
             string fromCurrency = (from.Content as String).Substring(0, 3);
 
             ComboBoxItem to = CurrenciesTo.SelectedItem as ComboBoxItem;
             string toCurrency = (to.Content as String).Substring(0, 3);
 
-            ConvertDataProvider cdp = new ConvertDataProvider();
-            if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) && (fromCurrency != toCurrency) || (date != lastDate))
+            ExchangeRateDataProvider cdp = new ExchangeRateDataProvider();
+            if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) && (fromCurrency != toCurrency) || (endDate != lastDate))
             {
-                lastDate = date;
-                exchangeRate = await cdp.GetHistoricalExchangeRate(fromCurrency, toCurrency, date);
+                lastDate = endDate;
+                exchangeRates = await cdp.GetHistoricalExchangeRates(fromCurrency, toCurrency, fromDate, endDate);
                 lastFromCurrency = fromCurrency;
                 lastToCurrency = toCurrency;
             }
 
-            if (fromCurrency == toCurrency)
-            {
-                AmountTo.Text = amount;
-            }
-            // Checks if AmountFrom textbox is empty or not
-            else if (double.TryParse(amount, out double result))
-            {
-                if (result * exchangeRate > 0.01)
-                {
-                    AmountTo.Text = string.Format("{0:#,###0.00}", result * exchangeRate);
-                }
-                else
-                {
-                    decimal resultInDecimal = (decimal)(result * exchangeRate);
-                    AmountTo.Text = resultInDecimal.ToString();
-                }
-            }
-            else
-            {
-                AmountTo.Text = "";
-            }
-            AmountFrom.Focus(FocusState.Programmatic);  //Sets focus on Textbox AmountFrom
+
+
+            DatePicker.Focus(FocusState.Programmatic);  //Sets focus on DatePicker
         }
 
         private void ChangeCurrency_OnDropDownClosed(object sender, object e)
         {
-            if (AmountFrom.Text != string.Empty)
-            {
-                ConvertCurrency(AmountFrom.Text, DatePicker.PlaceholderText);
-            }
+            ListExchangeRates();
         }
 
         private void CalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
-            if(DatePicker.Date != null)
+            if (DatePicker.Date != null)
             {
-                var dateTime = (DateTimeOffset)(DatePicker.Date).Value.Date;
-                if (dateTime < DateTime.Now.AddDays(-366))
+                if (endDateTime != lastEndDateTime)
                 {
-                    dateTime = DateTime.Now.AddDays(-365);
-                    DatePicker.Date = DateTime.Today.AddDays(-365);
+                    if (endDateTime < DateTime.Today.AddDays(-357))
+                    {
+                        endDateTime = DateTime.Now.AddDays(-357);
+                        DatePicker.Date = endDateTime;
+                    }
+                    else if (endDateTime > DateTime.Now)
+                    {
+                        endDateTime = DateTime.Today;
+                        DatePicker.Date = endDateTime;
+                    }
+                    lastEndDateTime = endDateTime;
+                    ListExchangeRates();
                 }
-                string date = (dateTime.Year + "-" + dateTime.Month + "-" + dateTime.Day).ToString();
-                DatePicker.PlaceholderText = date;
-                ConvertCurrency(AmountFrom.Text, date);
             }
         }
     }

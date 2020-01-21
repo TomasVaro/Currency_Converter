@@ -1,0 +1,90 @@
+﻿<Page
+    x:Class="XAML_Projektarbete.CurrenciesCountries"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:XAML_Projektarbete"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Margin="40, -10, 0, 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Row 0 TextBlocks Titles -->
+        <TextBlock Grid.Row="0"
+                   Grid.Column="0"
+                   Text="Valuta" 
+                   FontSize="36"/>
+        <TextBlock Grid.Row="0"
+                   Grid.Column="1"
+                   Text="Valutaid"                                       
+                   Margin="50 0 0 0"
+                   FontSize="36"/>
+        <TextBlock Grid.Row="0"
+                   Grid.Column="2"
+                   Text="Valutasymbol" 
+                   FontSize="36"/>
+
+        <!-- Row 1 TextBlock Currencies -->
+        <ComboBox x:Name="CurrencyName"
+                  Grid.Row="1"
+                  Grid.Column="0"
+                  HorizontalAlignment="Stretch"
+                  Height="41"
+                  FontSize="22"
+                  CornerRadius="10"
+                  DropDownClosed="ShowCurrencies_OnDropDownClosed"/>
+        <TextBlock  x:Name="CurrencyId"
+                    Grid.Row="1"
+                    Grid.Column="1"                    
+                    Margin="55 0 0 0"
+                    FontSize="22"/>
+        <TextBlock  x:Name="CurrencySymbol"
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    FontSize="22"/>
+
+        <!-- Row 2 TextBlocks -->
+        <TextBlock Grid.Row="2"
+                   Grid.Column="0"
+                   Text="Land" 
+                   FontSize="36"/>
+        <TextBlock Grid.Row="2"
+                   Grid.Column="1"
+                   Text="Landskod"                    
+                   Margin="55 0 55 0" 
+                   FontSize="36"/>
+        <TextBlock Grid.Row="2"
+                   Grid.Column="2"
+                   Text="Landsid" 
+                   FontSize="36"/>
+
+        <!-- Row 3 ComboBox and results for Countries -->
+        <TextBlock  x:Name="CountryName"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="0, -20, 0, 0"
+                    FontSize="22"/>
+        <TextBlock x:Name="CountryCode"
+                   Grid.Row="3"
+                   Grid.Column="1"
+                   Margin="55, -20, 0, 0"
+                   FontSize="22"/>
+        <TextBlock x:Name="CountryId"
+                   Grid.Row="3"
+                   Grid.Column="2"
+                    Margin="0, -20, 0, 0"
+                   FontSize="22"/>
+    </Grid>
+</Page>

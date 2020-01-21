@@ -27,7 +27,7 @@ namespace XAML_Projektarbete
         Dictionary<string, Models.Currency> currencies;
         private async void getAllCurrencies()
         {
-            ConvertDataProvider cdp = new ConvertDataProvider();
+            CurrencyDataProvider cdp = new CurrencyDataProvider();
             currencies = await cdp.GetCurrencies();
             ComboBoxItem currenciesAll;
 
