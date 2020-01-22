@@ -20,14 +20,14 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <!-- Row 0 From-To -->
+        <!-- Row 0 Titles -->
         <TextBlock Grid.Row="0"
                    Grid.Column="0"
-                   Text="Valuta 1" 
+                   Text="Från valuta" 
                    FontSize="36"/>
         <TextBlock Grid.Row="0"
                    Grid.Column="3"
-                   Text="Valuta 2"
+                   Text="Till valuta"
                    FontSize="36"/>
 
          <!--Row 1 ComboBoxes & SwitchButton-->
@@ -59,7 +59,7 @@
                   CornerRadius="10"
                   DropDownClosed="ChangeCurrency_OnDropDownClosed"/>
 
-        <!--Row 2 TextBlock Amount-->
+        <!--Row 2 CalendarPicker & Result-->
         <CalendarDatePicker x:Name="DatePicker"
                             Grid.Row="2"
                             Grid.Column="0"
@@ -69,7 +69,7 @@
                             DateFormat="{}{year.full}-{month.integer}-{day.integer}"
                             FirstDayOfWeek="Monday"
                             DateChanged="CalendarDatePicker_DateChanged"/>
-        <TextBox x:Name="AmountTo"
+        <TextBox x:Name="ExchangeRates"
                  Grid.Row="2"
                  Grid.Column="2"
                  HorizontalAlignment="Stretch"

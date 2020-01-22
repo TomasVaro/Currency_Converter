@@ -52,9 +52,8 @@ namespace XAML_Projektarbete
                 CurrenciesFrom.Items.Add(currenciesFrom);
                 CurrenciesTo.Items.Add(currenciesTo);
             }
-            CurrenciesFrom.SelectedIndex = 156; // Väljer default valuta
+            CurrenciesFrom.SelectedIndex = 156;
             CurrenciesTo.SelectedIndex = 143;
-            //DatePicker.Focus(FocusState.Programmatic);  //Sets focus on Textbox AmountFrom
             ListExchangeRates();
         }
 
@@ -94,9 +93,8 @@ namespace XAML_Projektarbete
                 lastToCurrency = toCurrency;
             }
 
-
-
-            DatePicker.Focus(FocusState.Programmatic);  //Sets focus on DatePicker
+            ExchangeRates.Text = "Hej";   // Skriver resultaten i Textboxen ExchangeRates
+            DatePicker.Focus(FocusState.Programmatic);  //Sets focus on DatePicker ??????????????????????????????
         }
 
         private void ChangeCurrency_OnDropDownClosed(object sender, object e)

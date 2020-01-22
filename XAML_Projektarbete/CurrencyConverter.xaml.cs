@@ -53,9 +53,9 @@ namespace XAML_Projektarbete
                 CurrenciesFrom.Items.Add(currenciesFrom);
                 CurrenciesTo.Items.Add(currenciesTo);
             }
-            CurrenciesFrom.SelectedIndex = 156; // Väljer default valuta
+            CurrenciesFrom.SelectedIndex = 156;
             CurrenciesTo.SelectedIndex = 143;
-            AmountFrom.Focus(FocusState.Programmatic);  //Sets focus on Textbox AmountFrom
+            AmountFrom.Focus(FocusState.Programmatic);
         }
 
         private void TextBox_OnBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs e)

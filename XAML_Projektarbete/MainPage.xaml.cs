@@ -27,7 +27,6 @@ namespace XAML_Projektarbete
         {
             this.InitializeComponent();
             APIHelper.InitilizedClient();
-            //ContentFrame.Navigate(typeof(CurrencyConverter));
             ContentFrame.Content = "\n  Välkommen till Valutaguiden! \n \n  Välj ett av alternativen i menyn till vänster";
             ContentFrame.FontSize = 40;
         }

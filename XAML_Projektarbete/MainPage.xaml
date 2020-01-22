@@ -20,15 +20,15 @@
               Background="Black"
               Height="110">
             <Image Source="Images/euro.png"
-                       Margin="10"
-                       HorizontalAlignment="Left"/>
+                   Margin="10"
+                   HorizontalAlignment="Left"/>
             <Image Source="Images/dollar.png"
-                       Margin="15"
-                       HorizontalAlignment="Right"/>
+                   Margin="15"
+                   HorizontalAlignment="Right"/>
             <TextBlock Text="Valutaguiden"
-                           HorizontalAlignment="Center"
-                           FontSize="70"
-                           Foreground="White"/>
+                       HorizontalAlignment="Center"
+                       FontSize="70"
+                       Foreground="White"/>
         </Grid>
 
         <!-- Row 1 Hamburger-menue -->
