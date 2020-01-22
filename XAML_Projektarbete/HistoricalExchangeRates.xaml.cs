@@ -72,15 +72,12 @@ namespace XAML_Projektarbete
         {
             fromDateTime = (DatePicker.Date).Value.Date.AddDays(-8);
             string fromDate = (fromDateTime.Year + "-" + fromDateTime.Month + "-" + fromDateTime.Day).ToString();
-
             endDateTime = (DatePicker.Date).Value.Date;
             string endDate = (endDateTime.Year + "-" + endDateTime.Month + "-" + endDateTime.Day).ToString();
-
-            DatePicker.PlaceholderText = endDate;
+            DatePicker.PlaceholderText = endDate;  // Behövs ev inte ?????????????????
 
             ComboBoxItem from = CurrenciesFrom.SelectedItem as ComboBoxItem;
             string fromCurrency = (from.Content as String).Substring(0, 3);
-
             ComboBoxItem to = CurrenciesTo.SelectedItem as ComboBoxItem;
             string toCurrency = (to.Content as String).Substring(0, 3);
 

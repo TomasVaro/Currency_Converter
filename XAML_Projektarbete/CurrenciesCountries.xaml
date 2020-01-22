@@ -13,14 +13,14 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="290"/>
+            <ColumnDefinition Width="260"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-
+        
         <!-- Row 0 TextBlocks Titles -->
         <TextBlock Grid.Row="0"
                    Grid.Column="0"
@@ -47,7 +47,7 @@
                   DropDownClosed="ShowCurrencies_OnDropDownClosed"/>
         <TextBlock  x:Name="CurrencyId"
                     Grid.Row="1"
-                    Grid.Column="1"                    
+                    Grid.Column="1"
                     Margin="55 0 0 0"
                     FontSize="22"/>
         <TextBlock  x:Name="CurrencySymbol"
@@ -71,20 +71,22 @@
                    FontSize="36"/>
 
         <!-- Row 3 ComboBox and results for Countries -->
-        <TextBlock  x:Name="CountryName"
-                    Grid.Row="3"
-                    Grid.Column="0"
-                    Margin="0, -20, 0, 0"
-                    FontSize="22"/>
-        <TextBlock x:Name="CountryCode"
-                   Grid.Row="3"
-                   Grid.Column="1"
-                   Margin="55, -20, 0, 0"
-                   FontSize="22"/>
-        <TextBlock x:Name="CountryId"
-                   Grid.Row="3"
-                   Grid.Column="2"
-                   Margin="0, -20, 0, 0"
-                   FontSize="22"/>
+        <ScrollViewer Grid.Row="3"
+                      Grid.Column="0" 
+                      Grid.ColumnSpan="3">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock  x:Name="CountryName"
+                            Width="345"
+                            FontSize="22"
+                      Margin="0 -28 0 0"/>
+                <TextBlock x:Name="CountryCode"
+                            Width="205"
+                           FontSize="22"
+                      Margin="0 -28 0 0"/>
+                <TextBlock x:Name="CountryId"
+                           FontSize="22"
+                      Margin="0 -28 0 0"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
