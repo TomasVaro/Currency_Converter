@@ -49,7 +49,7 @@
 
                     <NavigationViewItem Content="Lista på valutor" Tag="currency">
                         <NavigationViewItem.Icon>
-                            <FontIcon Glyph="&#xE9BB;"/>
+                            <FontIcon Glyph="&#xE7F0;"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
@@ -61,7 +61,7 @@
 
                     <NavigationViewItem Content="Valutor och länder" Tag="currenciesCountries">
                         <NavigationViewItem.Icon>
-                            <FontIcon Glyph="&#xE909;"/>
+                            <FontIcon Glyph="&#xF2B7;"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
