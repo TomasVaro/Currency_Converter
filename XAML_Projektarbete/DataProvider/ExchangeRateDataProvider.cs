@@ -33,18 +33,17 @@ namespace XAML_Projektarbete.DataProvider
             return exchangeRate;
         }
 
-        public async Task<Dictionary<string, object>> GetHistoricalExchangeRates(string fromCurrency, string toCurrency, string fromDate, string endDate)
+        public async Task<Dictionary<string, double>> GetHistoricalExchangeRates(string fromCurrency, string toCurrency, string fromDate, string endDate)
         {
-            string URL = $"https://free.currconv.com/api/v7/convert?q={fromCurrency}_{toCurrency}&compact=ultra&apiKey={apiKey}";
-            //var exchangeRates = 0.00;
-            Dictionary<string, object> exchangeRatesDictionary = new Dictionary<string, object>();
+            string URL = $"https://free.currconv.com/api/v7/convert?apiKey={apiKey}&q={fromCurrency}_{toCurrency}&compact=ultra&date={fromDate}&endDate={endDate}";
+            Dictionary<string, double> exchangeRatesDictionary = new Dictionary<string, double>();
             using (HttpResponseMessage response = await APIHelper.ApiClient.GetAsync(URL))
             {
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsStringAsync();
-                    var data = JsonConvert.DeserializeObject<JObject>(result);
-                    exchangeRatesDictionary = data.First.ToObject<Dictionary<string, Object>>();
+                    var data = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, double>>>(result);
+                    exchangeRatesDictionary = data.First().Value;
                 }
             }
             return exchangeRatesDictionary;

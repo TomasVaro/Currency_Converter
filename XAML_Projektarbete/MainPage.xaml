@@ -36,12 +36,10 @@
               HorizontalAlignment="Left">
             <NavigationView x:Name="NavigationView"
                             Grid.Row="0"
-                            ExpandedModeThresholdWidth="0"
                             IsBackButtonVisible="Collapsed"
                             IsSettingsVisible="False"
                             SelectionChanged="MenuSelected"
-                            IsPaneOpen="False"
-                            OpenPaneLength="200">
+                            PaneDisplayMode="Top">
                 <NavigationView.MenuItems>
                     <NavigationViewItem Content="Valutaomräknare" Tag="converter">
                         <NavigationViewItem.Icon>

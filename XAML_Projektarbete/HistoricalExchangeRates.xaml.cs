@@ -18,14 +18,17 @@ namespace XAML_Projektarbete
 {
     public sealed partial class HistoricalExchangeRates : Page
     {
-        DateTimeOffset lastEndDateTime = new DateTimeOffset();
-        DateTimeOffset fromDateTime = new DateTimeOffset();
-        DateTimeOffset endDateTime = new DateTimeOffset();
+        
+        string lastFromCurrency = string.Empty;
+        string lastToCurrency = string.Empty;
+        string lastDate = string.Empty;
+        Dictionary<string, double> exchangeRates = new Dictionary<string, double>();
+        DateTimeOffset lastDateTime = new DateTimeOffset();
 
         public HistoricalExchangeRates()
         {
             this.InitializeComponent();
-            //DatePicker.PlaceholderText = (DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day).ToString();
+            DatePicker.PlaceholderText = (DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day).ToString();
             DatePicker.Date = DateTime.Now;
             getCurrencies();
         }
@@ -62,19 +65,17 @@ namespace XAML_Projektarbete
             int currencyFrom = CurrenciesTo.SelectedIndex;
             CurrenciesTo.SelectedIndex = CurrenciesFrom.SelectedIndex;
             CurrenciesFrom.SelectedIndex = currencyFrom;
+            ListExchangeRates();
         }
-
-        string lastFromCurrency = string.Empty;
-        string lastToCurrency = string.Empty;
-        string lastDate = string.Empty;
-        Dictionary<string, Object> exchangeRates = new Dictionary<string, Object>();
+        
         private async void ListExchangeRates()
         {
+            DateTimeOffset fromDateTime = new DateTimeOffset();
             fromDateTime = (DatePicker.Date).Value.Date.AddDays(-8);
             string fromDate = (fromDateTime.Year + "-" + fromDateTime.Month + "-" + fromDateTime.Day).ToString();
+            DateTimeOffset endDateTime = new DateTimeOffset();
             endDateTime = (DatePicker.Date).Value.Date;
             string endDate = (endDateTime.Year + "-" + endDateTime.Month + "-" + endDateTime.Day).ToString();
-            DatePicker.PlaceholderText = endDate;  // Behövs ev inte ?????????????????
 
             ComboBoxItem from = CurrenciesFrom.SelectedItem as ComboBoxItem;
             string fromCurrency = (from.Content as String).Substring(0, 3);
@@ -82,16 +83,25 @@ namespace XAML_Projektarbete
             string toCurrency = (to.Content as String).Substring(0, 3);
 
             ExchangeRateDataProvider cdp = new ExchangeRateDataProvider();
-            if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) && (fromCurrency != toCurrency) || (endDate != lastDate))
+            if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) || (endDate != lastDate))    //**************************
             {
                 lastDate = endDate;
                 exchangeRates = await cdp.GetHistoricalExchangeRates(fromCurrency, toCurrency, fromDate, endDate);
                 lastFromCurrency = fromCurrency;
                 lastToCurrency = toCurrency;
             }
-
-            ExchangeRates.Text = "Hej";   // Skriver resultaten i Textboxen ExchangeRates
-            DatePicker.Focus(FocusState.Programmatic);  //Sets focus on DatePicker ??????????????????????????????
+            ExchangeRates.Text = string.Empty;
+            foreach (KeyValuePair<string, double> keyValuePair in exchangeRates)
+            {
+                if (keyValuePair.Value >= 0.0001)
+                {
+                    ExchangeRates.Text = ExchangeRates.Text + (keyValuePair.Key + "  =  " + string.Format("{0:#,###0.000000}", keyValuePair.Value) + "  " + to.Content.ToString().Substring(0, 3) + "\n");
+                }
+                else
+                {
+                    ExchangeRates.Text = ExchangeRates.Text + (keyValuePair.Key + "  =  " + string.Format("{0:#,###0.000000000000}", keyValuePair.Value) + "  " + to.Content.ToString().Substring(0, 3) + "\n");
+                }
+            }
         }
 
         private void ChangeCurrency_OnDropDownClosed(object sender, object e)
@@ -101,21 +111,24 @@ namespace XAML_Projektarbete
 
         private void CalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
-            if (DatePicker.Date != null)
+            if (DatePicker.Date != null && CurrenciesFrom.SelectedItem != null)
             {
-                if (endDateTime != lastEndDateTime)
+                var dateTime = (DateTimeOffset)(DatePicker.Date).Value.Date;
+                if (dateTime != lastDateTime)
                 {
-                    if (endDateTime < DateTime.Today.AddDays(-357))
+                    if (dateTime < DateTime.Today.AddDays(-357))
                     {
-                        endDateTime = DateTime.Now.AddDays(-357);
-                        DatePicker.Date = endDateTime;
+                        dateTime = DateTime.Now.AddDays(-357);
+                        DatePicker.Date = dateTime;
                     }
-                    else if (endDateTime > DateTime.Now)
+                    else if (dateTime > DateTime.Now)
                     {
-                        endDateTime = DateTime.Today;
-                        DatePicker.Date = endDateTime;
+                        dateTime = DateTime.Today;
+                        DatePicker.Date = dateTime;
                     }
-                    lastEndDateTime = endDateTime;
+                    lastDateTime = dateTime;
+                    string date = (dateTime.Year + "-" + dateTime.Month + "-" + dateTime.Day).ToString();
+                    DatePicker.PlaceholderText = date;
                     ListExchangeRates();
                 }
             }

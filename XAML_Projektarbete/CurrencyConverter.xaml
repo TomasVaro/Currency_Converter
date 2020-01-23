@@ -56,7 +56,6 @@
                   HorizontalAlignment="Stretch"
                   Height="41"
                   FontSize="22"
-                  DisplayMemberPath="Id"
                   CornerRadius="10"
                   DropDownClosed="ChangeCurrency_OnDropDownClosed"/>
 

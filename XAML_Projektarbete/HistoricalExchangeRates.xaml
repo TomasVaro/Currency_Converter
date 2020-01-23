@@ -12,7 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -24,7 +24,8 @@
         <TextBlock Grid.Row="0"
                    Grid.Column="0"
                    Text="Från valuta" 
-                   FontSize="36"/>
+                   FontSize="36"
+                   Margin="0, 0, 0, 10"/>
         <TextBlock Grid.Row="0"
                    Grid.Column="3"
                    Text="Till valuta"
@@ -55,7 +56,6 @@
                   HorizontalAlignment="Stretch"
                   Height="41"
                   FontSize="22"
-                  DisplayMemberPath="Id"
                   CornerRadius="10"
                   DropDownClosed="ChangeCurrency_OnDropDownClosed"/>
 
@@ -64,19 +64,18 @@
                             Grid.Row="2"
                             Grid.Column="0"
                             FontSize="30"
-                            Margin="0 30 0 0"
                             HorizontalAlignment="Center"
                             DateFormat="{}{year.full}-{month.integer}-{day.integer}"
                             FirstDayOfWeek="Monday"
-                            DateChanged="CalendarDatePicker_DateChanged"/>
-        <TextBox x:Name="ExchangeRates"
-                 Grid.Row="2"
-                 Grid.Column="2"
-                 HorizontalAlignment="Stretch"
-                 Height="55"
-                 FontSize="36"
-                 Margin="0 30 0 0"
-                 CornerRadius="10"
-                 IsReadOnly="True"/>
+                            DateChanged="CalendarDatePicker_DateChanged"
+                            VerticalAlignment="Top"
+                            Margin="0 30 0 0"/>
+        <ScrollViewer Grid.Row="2"
+                      Grid.Column="2"
+                      Margin="0 30 0 0">
+            <TextBlock x:Name="ExchangeRates"
+                       HorizontalAlignment="Stretch"
+                       FontSize="22"/>            
+        </ScrollViewer>
     </Grid>
 </Page>

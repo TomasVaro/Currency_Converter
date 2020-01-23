@@ -38,23 +38,18 @@ namespace XAML_Projektarbete
             {
                 case "converter":
                     ContentFrame.Navigate(typeof(CurrencyConverter));
-                    NavigationView.Header = "Valutaomräknare";
                     break;
                 case "currency":
                     ContentFrame.Navigate(typeof(ListOfCurrencies));
-                    NavigationView.Header = "Lista på valutor";
                     break;
                 case "countries":
                     ContentFrame.Navigate(typeof(ListOfCountries));
-                    NavigationView.Header = "Länder och valutor";
                     break;
                 case "currenciesCountries":
                     ContentFrame.Navigate(typeof(CurrenciesCountries));
-                    NavigationView.Header = "Valutor och länder";
                     break;
                 case "historical":
                     ContentFrame.Navigate(typeof(HistoricalExchangeRates));
-                    NavigationView.Header = "Historiska valutakurser";
                     break;
             }
         }

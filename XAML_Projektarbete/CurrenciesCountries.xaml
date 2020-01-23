@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Margin="40, -10, 0, 0">
+    <Grid Margin="40, 10, 0, 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -75,17 +75,17 @@
                       Grid.Column="0" 
                       Grid.ColumnSpan="3">
             <StackPanel Orientation="Horizontal">
-                <TextBlock  x:Name="CountryName"
-                            Width="345"
-                            FontSize="22"
-                      Margin="0 -28 0 0"/>
-                <TextBlock x:Name="CountryCode"
-                            Width="205"
+                <TextBlock x:Name="CountryName"
+                           Width="345"
                            FontSize="22"
-                      Margin="0 -28 0 0"/>
+                           Margin="0 -28 0 0"/>
+                <TextBlock x:Name="CountryCode"
+                           Width="205"
+                           FontSize="22"
+                           Margin="0 -28 0 0"/>
                 <TextBlock x:Name="CountryId"
                            FontSize="22"
-                      Margin="0 -28 0 0"/>
+                           Margin="0 -28 0 0"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>
