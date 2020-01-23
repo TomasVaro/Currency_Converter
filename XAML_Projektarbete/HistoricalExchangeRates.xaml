@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -35,7 +36,6 @@
         <ComboBox x:Name="CurrenciesFrom"
                   Grid.Row="1"
                   Grid.Column="0"
-                  HorizontalAlignment="Stretch"
                   Height="41"
                   FontSize="22"
                   CornerRadius="10"
@@ -46,33 +46,38 @@
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="36"
                 Content="&#xF1CB;"
-                Margin="10 -5 20 0"
+                Margin="10 -5 10 0"
                 HorizontalAlignment="Center"
                 Background="White"
                 CornerRadius="10"/>
         <ComboBox x:Name="CurrenciesTo"
                   Grid.Row="1"
                   Grid.Column="3"
-                  HorizontalAlignment="Stretch"
                   Height="41"
                   FontSize="22"
                   CornerRadius="10"
                   DropDownClosed="ChangeCurrency_OnDropDownClosed"/>
 
-        <!--Row 2 CalendarPicker & Result-->
+        <!--Row 2 Message-->
+        <TextBlock x:Name="Message"
+                   Grid.Row="2"
+                   Grid.Column="0"
+                   HorizontalAlignment="Center"
+                   FontSize="26"
+                   Margin="0 10 0 5"/>
+
+        <!--Row 3 CalendarPicker & Result-->
         <CalendarDatePicker x:Name="DatePicker"
-                            Grid.Row="2"
+                            Grid.Row="3"
                             Grid.Column="0"
                             FontSize="30"
                             HorizontalAlignment="Center"
                             DateFormat="{}{year.full}-{month.integer}-{day.integer}"
                             FirstDayOfWeek="Monday"
                             DateChanged="CalendarDatePicker_DateChanged"
-                            VerticalAlignment="Top"
-                            Margin="0 30 0 0"/>
-        <ScrollViewer Grid.Row="2"
-                      Grid.Column="2"
-                      Margin="0 30 0 0">
+                            VerticalAlignment="Top"/>
+        <ScrollViewer Grid.Row="3"
+                      Grid.Column="2">
             <TextBlock x:Name="ExchangeRates"
                        HorizontalAlignment="Stretch"
                        FontSize="22"/>            

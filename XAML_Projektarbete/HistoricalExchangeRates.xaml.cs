@@ -111,6 +111,7 @@ namespace XAML_Projektarbete
 
         private void CalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
+            Message.Text = string.Empty;
             if (DatePicker.Date != null && CurrenciesFrom.SelectedItem != null)
             {
                 var dateTime = (DateTimeOffset)(DatePicker.Date).Value.Date;
@@ -120,11 +121,13 @@ namespace XAML_Projektarbete
                     {
                         dateTime = DateTime.Now.AddDays(-357);
                         DatePicker.Date = dateTime;
+                        Message.Text = "Max 1 år bakåt";
                     }
                     else if (dateTime > DateTime.Now)
                     {
                         dateTime = DateTime.Today;
                         DatePicker.Date = dateTime;
+                        Message.Text = "Dagens datum";
                     }
                     lastDateTime = dateTime;
                     string date = (dateTime.Year + "-" + dateTime.Month + "-" + dateTime.Day).ToString();

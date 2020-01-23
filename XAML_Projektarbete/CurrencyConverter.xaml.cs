@@ -65,7 +65,7 @@ namespace XAML_Projektarbete
             {
                 if (AmountFrom.Text.Length == 0)
                 {
-                    AmountFrom.Select(e.NewText.Length, 0);   //Sets cursor at the end of textbox
+                    AmountFrom.Select(e.NewText.Length, 0); //Sets cursor at the end of textbox
                 }
                 ConvertCurrency(e.NewText, DatePicker.PlaceholderText);
             }
@@ -121,7 +121,7 @@ namespace XAML_Projektarbete
             {
                 AmountTo.Text = "";
             }
-            AmountFrom.Focus(FocusState.Programmatic);  //Sets focus on Textbox AmountFrom
+            AmountFrom.Focus(FocusState.Programmatic);
         }
 
         private void ChangeCurrency_OnDropDownClosed(object sender, object e)
@@ -134,6 +134,7 @@ namespace XAML_Projektarbete
 
         private void CalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
+            Message.Text = string.Empty;
             if (DatePicker.Date != null)
             {
                 var dateTime = (DateTimeOffset)(DatePicker.Date).Value.Date;
@@ -143,11 +144,13 @@ namespace XAML_Projektarbete
                     {
                         dateTime = DateTime.Now.AddDays(-365);
                         DatePicker.Date = dateTime;
+                        Message.Text = "Max 1 år bakåt";
                     }
                     else if (dateTime > DateTime.Now)
                     {
                         dateTime = DateTime.Today;
                         DatePicker.Date = dateTime;
+                        Message.Text = "Dagens datum";
                     }
                     lastDateTime = dateTime;
                     string date = (dateTime.Year + "-" + dateTime.Month + "-" + dateTime.Day).ToString();
