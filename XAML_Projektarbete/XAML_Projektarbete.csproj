@@ -129,7 +129,6 @@
     <Compile Include="DataProvider\ExchangeRateDataProvider.cs" />
     <Compile Include="DataProvider\CountryDataProvider.cs" />
     <Compile Include="DataProvider\CurrencyDataProvider.cs" />
-    <Compile Include="HostViewModel.cs" />
     <Compile Include="Models\ConverterDynamicClass.cs" />
     <Compile Include="HistoricalExchangeRates.xaml.cs">
       <DependentUpon>HistoricalExchangeRates.xaml</DependentUpon>
@@ -147,7 +146,6 @@
     <Compile Include="Models\Currency.cs" />
     <Compile Include="Models\CurrencyHistoryDynamicClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TextCompositionEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -211,11 +209,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <None Include="..\.editorconfig">
-      <Link>.editorconfig</Link>
-    </None>
-  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
