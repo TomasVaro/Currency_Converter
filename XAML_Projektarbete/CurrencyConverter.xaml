@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
@@ -80,7 +80,9 @@
                  HorizontalAlignment="Stretch"
                  Height="55"
                  FontSize="36"
-                 CornerRadius="10"/>
+                 CornerRadius="10"
+                 Background="LightSkyBlue"
+                 Opacity="0.7"/>
         <CalendarDatePicker x:Name="DatePicker"
                             Grid.Row="3"
                             Grid.Column="1"
@@ -91,13 +93,16 @@
                             FirstDayOfWeek="Monday"
                             DateChanged="CalendarDatePicker_DateChanged"/>
         <TextBox x:Name="AmountTo"
+                 Text="{x:Bind AmountToText}"
+                 x:DefaultBindMode="OneWay"
                  Grid.Row="3"
                  Grid.Column="2"
                  HorizontalAlignment="Stretch"
                  Height="55"
                  FontSize="36"
                  CornerRadius="10"
-                 IsReadOnly="True"/>
+                 IsReadOnly="True"
+                 AllowFocusOnInteraction="False"/>
 
         <!--Row 4 Message-->
         <TextBlock x:Name="Message"

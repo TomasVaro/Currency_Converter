@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -16,19 +18,58 @@ using XAML_Projektarbete.DataProvider;
 
 namespace XAML_Projektarbete
 {
-    public sealed partial class CurrencyConverter : Page
+    public sealed partial class CurrencyConverter : Page, INotifyPropertyChanged
     {
-        string lastFromCurrency = string.Empty;
-        string lastToCurrency = string.Empty;
-        string lastDate = string.Empty;
-        double exchangeRate;
-        DateTimeOffset lastDateTime = new DateTimeOffset();
+        private string lastFromCurrency = string.Empty;
+        private string lastToCurrency = string.Empty;
+        private string lastDate = string.Empty;
+        private double exchangeRate;
+        private string amountToText;
+        private string fromCurrency;
+        private string toCurrency;
+        private string date;
+        private DispatcherTimer timer = new DispatcherTimer();
+        private DateTimeOffset lastDateTime = new DateTimeOffset();
+        public event PropertyChangedEventHandler PropertyChanged;
+        ExchangeRateDataProvider erdp = new ExchangeRateDataProvider();
+        
+        public string AmountToText 
+        { 
+            get { return amountToText; }
+            set
+            {
+                if (amountToText != value)
+                {
+                    amountToText = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AmountToText)));
+                }
+            }
+        }
 
         public CurrencyConverter()
         {
             this.InitializeComponent();
             DatePicker.PlaceholderText = (DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day).ToString();
             getCurrencies();
+            date = DatePicker.PlaceholderText;
+            timer.Interval = TimeSpan.FromMinutes(1);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+            Unloaded += OnPageLeave;
+        }
+
+        private async void Timer_Tick(object sender, object e)
+        {
+            if(fromCurrency != null || toCurrency != null)
+            {
+                exchangeRate = await erdp.GetExchangeRate(fromCurrency, toCurrency, date);
+                ConvertCurrency(AmountFrom.Text, date);
+            }
+        }
+
+        private void OnPageLeave(object sender, RoutedEventArgs e)
+        {
+            timer.Stop();
         }
 
         private async void getCurrencies()
@@ -57,6 +98,54 @@ namespace XAML_Projektarbete
             CurrenciesTo.SelectedIndex = 143;
             AmountFrom.Focus(FocusState.Programmatic);
         }
+        
+        private async void ConvertCurrency(string amount, string date)
+        {
+            ComboBoxItem from = CurrenciesFrom.SelectedItem as ComboBoxItem;
+            fromCurrency = (from.Content as String).Substring(0, 3);
+
+            ComboBoxItem to = CurrenciesTo.SelectedItem as ComboBoxItem;
+            toCurrency = (to.Content as String).Substring(0, 3);
+
+            if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) && (fromCurrency != toCurrency) || (date != lastDate))
+            {
+                lastDate = date;
+                exchangeRate = await erdp.GetExchangeRate(fromCurrency, toCurrency, date);
+                lastFromCurrency = fromCurrency;
+                lastToCurrency = toCurrency;
+            }
+
+            if (fromCurrency == toCurrency)
+            {
+                AmountToText = amount;
+            }
+            // Checks if AmountFrom textbox is empty or not
+            else if (double.TryParse(amount, out double result))
+            {
+                if (result * exchangeRate > 0.01)
+                {
+                    AmountToText = string.Format("{0:#,###0.00}", result * exchangeRate);
+                }
+                else
+                {
+                    decimal resultInDecimal = (decimal)(result * exchangeRate);
+                    AmountToText = resultInDecimal.ToString();
+                }
+            }
+            else
+            {
+                AmountToText = "";
+            }
+            AmountFrom.Focus(FocusState.Programmatic);
+        }
+
+        private void SwitchButton(object sender, RoutedEventArgs e)
+        {
+            int currencyFrom = CurrenciesTo.SelectedIndex;
+            CurrenciesTo.SelectedIndex = CurrenciesFrom.SelectedIndex;
+            CurrenciesFrom.SelectedIndex = currencyFrom;
+            ConvertCurrency(AmountFrom.Text, DatePicker.PlaceholderText);
+        }
 
         private void TextBox_OnBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs e)
         {
@@ -73,55 +162,6 @@ namespace XAML_Projektarbete
             {
                 e.Cancel = true;
             }
-        }
-
-        private void SwitchButton(object sender, RoutedEventArgs e)
-        {
-            int currencyFrom = CurrenciesTo.SelectedIndex;
-            CurrenciesTo.SelectedIndex = CurrenciesFrom.SelectedIndex;
-            CurrenciesFrom.SelectedIndex = currencyFrom;
-            ConvertCurrency(AmountFrom.Text, DatePicker.PlaceholderText);
-        }
-        
-        private async void ConvertCurrency(string amount, string date)
-        {
-            ComboBoxItem from = CurrenciesFrom.SelectedItem as ComboBoxItem;
-            string fromCurrency = (from.Content as String).Substring(0, 3);
-
-            ComboBoxItem to = CurrenciesTo.SelectedItem as ComboBoxItem;
-            string toCurrency = (to.Content as String).Substring(0, 3);
-
-            ExchangeRateDataProvider cdp = new ExchangeRateDataProvider();
-            if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) && (fromCurrency != toCurrency) || (date != lastDate))
-            {
-                lastDate = date;
-                exchangeRate = await cdp.GetExchangeRate(fromCurrency, toCurrency, date);
-                lastFromCurrency = fromCurrency;
-                lastToCurrency = toCurrency;
-            }
-
-            if (fromCurrency == toCurrency)
-            {
-                AmountTo.Text = amount;
-            }
-            // Checks if AmountFrom textbox is empty or not
-            else if (double.TryParse(amount, out double result))
-            {
-                if (result * exchangeRate > 0.01)
-                {
-                    AmountTo.Text = string.Format("{0:#,###0.00}", result * exchangeRate);
-                }
-                else
-                {
-                    decimal resultInDecimal = (decimal)(result * exchangeRate);
-                    AmountTo.Text = resultInDecimal.ToString();
-                }
-            }
-            else
-            {
-                AmountTo.Text = "";
-            }
-            AmountFrom.Focus(FocusState.Programmatic);
         }
 
         private void ChangeCurrency_OnDropDownClosed(object sender, object e)

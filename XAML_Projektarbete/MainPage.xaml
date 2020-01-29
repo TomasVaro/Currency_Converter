@@ -33,7 +33,7 @@
 
         <!-- Row 1 Hamburger-menue -->
         <Grid Grid.Row="1"
-              HorizontalAlignment="Left">
+              HorizontalAlignment="Stretch">
             <NavigationView x:Name="NavigationView"
                             Grid.Row="0"
                             IsBackButtonVisible="Collapsed"
@@ -49,7 +49,7 @@
 
                     <NavigationViewItem Content="Lista på valutor" Tag="currency">
                         <NavigationViewItem.Icon>
-                            <FontIcon Glyph="&#xE7F0;"/>
+                            <FontIcon Glyph="&#xE9BB;"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
@@ -61,7 +61,7 @@
 
                     <NavigationViewItem Content="Valutor och länder" Tag="currenciesCountries">
                         <NavigationViewItem.Icon>
-                            <FontIcon Glyph="&#xF2B7;"/>
+                            <FontIcon Glyph="&#xE909;"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
