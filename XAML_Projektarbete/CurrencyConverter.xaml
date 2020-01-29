@@ -82,7 +82,7 @@
                  FontSize="36"
                  CornerRadius="10"
                  Background="LightSkyBlue"
-                 Opacity="0.7"/>
+                 Opacity="0.6"/>
         <CalendarDatePicker x:Name="DatePicker"
                             Grid.Row="3"
                             Grid.Column="1"

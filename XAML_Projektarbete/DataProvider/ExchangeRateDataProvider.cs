@@ -15,8 +15,7 @@ namespace XAML_Projektarbete.DataProvider
 {
     public class ExchangeRateDataProvider
     {
-        private string apiKey = "37caa54a777a956b193b";
-        
+        private string apiKey = "37caa54a777a956b193b";        
         public async Task<double> GetExchangeRate(string fromCurrency, string toCurrency, string date)
         {
             string URL = $"https://free.currconv.com/api/v7/convert?apiKey={apiKey}&q={fromCurrency}_{toCurrency}&compact=ultra&date={date}";
