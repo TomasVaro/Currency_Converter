@@ -129,7 +129,8 @@
     <Compile Include="DataProvider\ExchangeRateDataProvider.cs" />
     <Compile Include="DataProvider\CountryDataProvider.cs" />
     <Compile Include="DataProvider\CurrencyDataProvider.cs" />
-    <Compile Include="Models\ConverterDynamicClass.cs" />
+    <Compile Include="DataProvider\HistoricalExchangeRateDataProvider.cs" />
+    <Compile Include="Models\ExchangeRateDynamicClass.cs" />
     <Compile Include="HistoricalExchangeRates.xaml.cs">
       <DependentUpon>HistoricalExchangeRates.xaml</DependentUpon>
     </Compile>
@@ -144,7 +145,7 @@
     </Compile>
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\Currency.cs" />
-    <Compile Include="Models\CurrencyHistoryDynamicClass.cs" />
+    <Compile Include="Models\HistoricalExchangeRateDynamicClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

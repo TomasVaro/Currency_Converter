@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using XAML_Projektarbete.DataProvider;
 
 namespace XAML_Projektarbete
@@ -82,8 +73,8 @@ namespace XAML_Projektarbete
             ComboBoxItem to = CurrenciesTo.SelectedItem as ComboBoxItem;
             string toCurrency = (to.Content as String).Substring(0, 3);
 
-            ExchangeRateDataProvider cdp = new ExchangeRateDataProvider();
-            if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) || (endDate != lastDate))    //**************************
+            HistoricalExchangeRateDataProvider cdp = new HistoricalExchangeRateDataProvider();
+            if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) || (endDate != lastDate))
             {
                 lastDate = endDate;
                 exchangeRates = await cdp.GetHistoricalExchangeRates(fromCurrency, toCurrency, fromDate, endDate);
