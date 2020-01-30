@@ -41,31 +41,36 @@
                             SelectionChanged="MenuSelected"
                             PaneDisplayMode="Top">
                 <NavigationView.MenuItems>
-                    <NavigationViewItem Content="Valutaomräknare" Tag="converter">
+                    <NavigationViewItem Content="Valutaomräknare" Tag="converter"
+                                        ToolTipService.ToolTip="Beräknar växlingskursen mellan två valutor upp till 1 år tillbaka i tiden">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xE8EF;"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
-                    <NavigationViewItem Content="Lista på valutor" Tag="currency">
+                    <NavigationViewItem Content="Lista på valutor" Tag="currency"
+                                        ToolTipService.ToolTip="Visar valutor med namn, id och symbol">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xE9BB;"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
-                    <NavigationViewItem Content="Länder och valutor" Tag="countries">
+                    <NavigationViewItem Content="Länder och valutor" Tag="countries"
+                                        ToolTipService.ToolTip="Visar länder och deras valuta">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xE909;"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
-                    <NavigationViewItem Content="Valutor och länder" Tag="currenciesCountries">
+                    <NavigationViewItem Content="Valutor och länder" Tag="currenciesCountries"
+                                        ToolTipService.ToolTip="Visar valutor och vilka länder som har den valutan">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xE909;"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
-                    <NavigationViewItem Content="Historiska valutakurser" Tag="historical">
+                    <NavigationViewItem Content="Historiska valutakurser" Tag="historical"
+                                        ToolTipService.ToolTip="Visar valutakurser från angivet datum och 8 dagar bakåt, upp till 1 år tillbaka i tiden">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xE9D9;"/>
                         </NavigationViewItem.Icon>
