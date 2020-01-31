@@ -27,24 +27,37 @@ namespace XAML_Projektarbete
                 Currencies.Items.Add(currenciesAll);
             }
             Currencies.SelectedIndex = 0;
-            var firstCurrency = currencies.OrderBy(kvp => kvp.Value.CurrencyName).First();
-            CurrencyId.Text = firstCurrency.Value.Id;
-            CurrencySymbol.Text = firstCurrency.Value.CurrencySymbol;
+            try
+            {
+                var firstCurrency = currencies.OrderBy(kvp => kvp.Value.CurrencyName).First();
+                CurrencyId.Text = firstCurrency.Value.Id;
+                CurrencySymbol.Text = firstCurrency.Value.CurrencySymbol;
+            }
+            catch
+            {
+                return;
+            }
         }
 
         private void ShowCurrency_OnDropDownClosed(object sender, object e)
         {
             ComboBoxItem selected = Currencies.SelectedItem as ComboBoxItem;
-            string selectedCurrency = selected.Content as String;
-
-            foreach (var cur in currencies.OrderBy(f => f.Value.CurrencyName))
+            try
             {
-                if (cur.Value.CurrencyName == selectedCurrency)
+                string selectedCurrency = selected.Content as String;
+                foreach (var cur in currencies.OrderBy(f => f.Value.CurrencyName))
                 {
-                    CurrencyId.Text = cur.Value.Id;
-                    CurrencySymbol.Text = cur.Value.CurrencySymbol ?? "Symbol saknas";
-                    break;
+                    if (cur.Value.CurrencyName == selectedCurrency)
+                    {
+                        CurrencyId.Text = cur.Value.Id;
+                        CurrencySymbol.Text = cur.Value.CurrencySymbol ?? "Symbol saknas";
+                        break;
+                    }
                 }
+            }
+            catch
+            {
+                return;
             }
         }
     }

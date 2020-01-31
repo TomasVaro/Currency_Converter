@@ -8,10 +8,10 @@ namespace XAML_Projektarbete.DataProvider
 {
     public class CountryDataProvider
     {
-        private string apiKey = "37caa54a777a956b193b";
+        public static string ApiKey { get; set; }
         public async Task<Dictionary<string, Countries>> getAllCountriesUrl()
         {
-            string URL = $"https://free.currconv.com/api/v7/countries?apiKey={apiKey}";
+            string URL = $"https://free.currconv.com/api/v7/countries?apiKey={ApiKey}";
             Dictionary<string, Countries> countriesDictionary = new Dictionary<string, Countries>();
             using (HttpResponseMessage response = await APIHelper.ApiClient.GetAsync(URL))
             {

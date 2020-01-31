@@ -76,7 +76,10 @@
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
                 </NavigationView.MenuItems>
-                <Frame x:Name="ContentFrame"/>
+                <Frame x:Name="ContentFrame"
+                       FontSize="40"
+                       Content= "&#x0a;Välkommen till Valutaguiden!&#x0a;&#x0a;Välj ett av alternativen i menyn upptill."
+                       HorizontalAlignment="Center"/>
             </NavigationView>
         </Grid>
     </Grid>

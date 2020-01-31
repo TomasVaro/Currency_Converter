@@ -7,11 +7,10 @@ using XAML_Projektarbete.Models;
 namespace XAML_Projektarbete.DataProvider
 {
     class CurrencyDataProvider
-    {
-        private string apiKey = "37caa54a777a956b193b";
+    {        public static string ApiKey { get; set; }
         public async Task<Dictionary<string, Currency>> GetCurrencies()
         {
-            string URL = $"https://free.currconv.com/api/v7/currencies?apiKey={apiKey}";
+            string URL = $"https://free.currconv.com/api/v7/currencies?apiKey={ApiKey}";
             Dictionary<string, Currency> currencyDictionary = new Dictionary<string, Currency>();
             using (HttpResponseMessage response = await APIHelper.ApiClient.GetAsync(URL))
             {

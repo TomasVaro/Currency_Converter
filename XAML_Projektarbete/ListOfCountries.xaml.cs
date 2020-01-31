@@ -18,40 +18,53 @@ namespace XAML_Projektarbete
         private async void getAllCountries()
         {
             CountryDataProvider cdp = new CountryDataProvider();
-            countries = await cdp.getAllCountriesUrl();
-            ComboBoxItem countriesAll;
+            try
+            {
+                countries = await cdp.getAllCountriesUrl();
+                CountryName.SelectedIndex = 0;
+                var firstCounty = countries.OrderBy(kvp => kvp.Value.Name).First();
 
+                CountryCode.Text = firstCounty.Value.Alpha3;
+                CountryId.Text = firstCounty.Value.Id;
+                CurrencyName.Text = firstCounty.Value.CurrencyName;
+                CurrencyId.Text = firstCounty.Value.CurrencyId;
+                CurrencySymbol.Text = firstCounty.Value.CurrencySymbol;
+            }
+            catch
+            {
+                return;
+            }
+
+            ComboBoxItem countriesAll;
             foreach (var cur in countries.OrderBy(f => f.Value.Name))
             {
                 countriesAll = new ComboBoxItem { Content = cur.Value.Name };
                 CountryName.Items.Add(countriesAll);
             }
-            CountryName.SelectedIndex = 0;
-            var firstCounty = countries.OrderBy(kvp => kvp.Value.Name).First();
-
-            CountryCode.Text = firstCounty.Value.Alpha3;
-            CountryId.Text = firstCounty.Value.Id;
-            CurrencyName.Text = firstCounty.Value.CurrencyName;
-            CurrencyId.Text = firstCounty.Value.CurrencyId;
-            CurrencySymbol.Text = firstCounty.Value.CurrencySymbol;
         }
 
         private void ShowCountries_OnDropDownClosed(object sender, object e)
         {
             ComboBoxItem selected = CountryName.SelectedItem as ComboBoxItem;
-            string selectedCountry = selected.Content as String;
-
-            foreach (var cur in countries.OrderBy(f => f.Value.Name))
+            try
             {
-                if (cur.Value.Name == selectedCountry)
+                string selectedCountry = selected.Content as String;
+                foreach (var cur in countries.OrderBy(f => f.Value.Name))
                 {
-                    CountryCode.Text = cur.Value.Alpha3;
-                    CountryId.Text = cur.Value.Id;
-                    CurrencyName.Text = cur.Value.CurrencyName;
-                    CurrencyId.Text = cur.Value.CurrencyId;
-                    CurrencySymbol.Text = cur.Value.CurrencySymbol;
-                    break;
+                    if (cur.Value.Name == selectedCountry)
+                    {
+                        CountryCode.Text = cur.Value.Alpha3;
+                        CountryId.Text = cur.Value.Id;
+                        CurrencyName.Text = cur.Value.CurrencyName;
+                        CurrencyId.Text = cur.Value.CurrencyId;
+                        CurrencySymbol.Text = cur.Value.CurrencySymbol;
+                        break;
+                    }
                 }
+            }
+            catch
+            {
+                return;
             }
         }
     }

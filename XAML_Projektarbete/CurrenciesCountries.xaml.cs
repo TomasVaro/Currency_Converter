@@ -18,7 +18,14 @@ namespace XAML_Projektarbete
         private async void getAllCurrencies()
         {
             CountryDataProvider cdp = new CountryDataProvider();
-            allCountries = await cdp.getAllCountriesUrl();
+            try
+            {
+                allCountries = await cdp.getAllCountriesUrl();
+            }
+            catch
+            {
+                return;
+            }
             ComboBoxItem currenciesNoDuplicates;
             string lastCurrency = string.Empty;
 
@@ -43,25 +50,32 @@ namespace XAML_Projektarbete
         private void getCountries()
         {
             ComboBoxItem selected = CurrencyName.SelectedItem as ComboBoxItem;
-            string selectedCurrency = selected.Content as String;
-            CountryName.Text = string.Empty;
-            CountryCode.Text = string.Empty;
-            CountryId.Text = string.Empty;
-
-            foreach (var cur in allCountries.OrderBy(f => f.Value.Name))
+            try
             {
-                if (cur.Value.CurrencyName == "United States dollar")
+                string selectedCurrency = selected.Content as String;
+                CountryName.Text = string.Empty;
+                CountryCode.Text = string.Empty;
+                CountryId.Text = string.Empty;
+
+                foreach (var cur in allCountries.OrderBy(f => f.Value.Name))
                 {
-                    cur.Value.CurrencyName = "U.S. Dollar";
+                    if (cur.Value.CurrencyName == "United States dollar")
+                    {
+                        cur.Value.CurrencyName = "U.S. Dollar";
+                    }
+                    if (cur.Value.CurrencyName.ToLower() == selectedCurrency.ToLower())
+                    {
+                        CurrencyId.Text = cur.Value.CurrencyId;
+                        CurrencySymbol.Text = cur.Value.CurrencySymbol;
+                        CountryName.Text = CountryName.Text + "\n" + cur.Value.Name;
+                        CountryCode.Text = CountryCode.Text + "\n" + cur.Value.Alpha3;
+                        CountryId.Text = CountryId.Text + "\n" + cur.Value.Id;
+                    }
                 }
-                if (cur.Value.CurrencyName.ToLower() == selectedCurrency.ToLower())
-                {                    
-                    CurrencyId.Text = cur.Value.CurrencyId;
-                    CurrencySymbol.Text = cur.Value.CurrencySymbol;
-                    CountryName.Text = CountryName.Text + "\n" + cur.Value.Name;
-                    CountryCode.Text = CountryCode.Text + "\n" + cur.Value.Alpha3;
-                    CountryId.Text = CountryId.Text + "\n" + cur.Value.Id;                    
-                }
+            }
+            catch
+            {
+                return;
             }
         }
     }

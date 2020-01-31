@@ -91,7 +91,14 @@ namespace XAML_Projektarbete
         private async void ConvertCurrency(string amount, string date)
         {
             ComboBoxItem from = CurrenciesFrom.SelectedItem as ComboBoxItem;
-            fromCurrency = (from.Content as String).Substring(0, 3);
+            try
+            {
+                fromCurrency = (from.Content as String).Substring(0, 3);
+            }
+            catch
+            {
+                return;
+            }
 
             ComboBoxItem to = CurrenciesTo.SelectedItem as ComboBoxItem;
             toCurrency = (to.Content as String).Substring(0, 3);

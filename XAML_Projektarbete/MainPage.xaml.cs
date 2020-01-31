@@ -10,8 +10,11 @@ namespace XAML_Projektarbete
         {
             this.InitializeComponent();
             APIHelper.InitilizedClient();
-            ContentFrame.Content = "\n  Välkommen till Valutaguiden! \n \n  Välj ett av alternativen i menyn upptill.";
-            ContentFrame.FontSize = 40;
+            string apiKey = "37caa54a777a956b193b";
+            CountryDataProvider.ApiKey = apiKey;
+            CurrencyDataProvider.ApiKey = apiKey;
+            ExchangeRateDataProvider.ApiKey = apiKey;
+            HistoricalExchangeRateDataProvider.ApiKey = apiKey;
         }
 
         private void MenuSelected(NavigationView sender, NavigationViewSelectionChangedEventArgs args)

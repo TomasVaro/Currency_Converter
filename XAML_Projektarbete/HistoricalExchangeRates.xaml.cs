@@ -69,29 +69,36 @@ namespace XAML_Projektarbete
             string endDate = (endDateTime.Year + "-" + endDateTime.Month + "-" + endDateTime.Day).ToString();
 
             ComboBoxItem from = CurrenciesFrom.SelectedItem as ComboBoxItem;
-            string fromCurrency = (from.Content as String).Substring(0, 3);
-            ComboBoxItem to = CurrenciesTo.SelectedItem as ComboBoxItem;
-            string toCurrency = (to.Content as String).Substring(0, 3);
+            try
+            {
+                string fromCurrency = (from.Content as String).Substring(0, 3);
+                ComboBoxItem to = CurrenciesTo.SelectedItem as ComboBoxItem;
+                string toCurrency = (to.Content as String).Substring(0, 3);
 
-            HistoricalExchangeRateDataProvider cdp = new HistoricalExchangeRateDataProvider();
-            if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) || (endDate != lastDate))
-            {
-                lastDate = endDate;
-                exchangeRates = await cdp.GetHistoricalExchangeRates(fromCurrency, toCurrency, fromDate, endDate);
-                lastFromCurrency = fromCurrency;
-                lastToCurrency = toCurrency;
+                HistoricalExchangeRateDataProvider cdp = new HistoricalExchangeRateDataProvider();
+                if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) || (endDate != lastDate))
+                {
+                    lastDate = endDate;
+                    exchangeRates = await cdp.GetHistoricalExchangeRates(fromCurrency, toCurrency, fromDate, endDate);
+                    lastFromCurrency = fromCurrency;
+                    lastToCurrency = toCurrency;
+                }
+                ExchangeRates.Text = string.Empty;
+                foreach (KeyValuePair<string, double> keyValuePair in exchangeRates)
+                {
+                    if (keyValuePair.Value >= 0.0001)
+                    {
+                        ExchangeRates.Text = ExchangeRates.Text + (keyValuePair.Key + "  =  " + string.Format("{0:#,###0.000000}", keyValuePair.Value) + "  " + to.Content.ToString().Substring(0, 3) + "\n");
+                    }
+                    else
+                    {
+                        ExchangeRates.Text = ExchangeRates.Text + (keyValuePair.Key + "  =  " + string.Format("{0:#,###0.000000000000}", keyValuePair.Value) + "  " + to.Content.ToString().Substring(0, 3) + "\n");
+                    }
+                }
             }
-            ExchangeRates.Text = string.Empty;
-            foreach (KeyValuePair<string, double> keyValuePair in exchangeRates)
+            catch
             {
-                if (keyValuePair.Value >= 0.0001)
-                {
-                    ExchangeRates.Text = ExchangeRates.Text + (keyValuePair.Key + "  =  " + string.Format("{0:#,###0.000000}", keyValuePair.Value) + "  " + to.Content.ToString().Substring(0, 3) + "\n");
-                }
-                else
-                {
-                    ExchangeRates.Text = ExchangeRates.Text + (keyValuePair.Key + "  =  " + string.Format("{0:#,###0.000000000000}", keyValuePair.Value) + "  " + to.Content.ToString().Substring(0, 3) + "\n");
-                }
+                return;
             }
         }
 
@@ -103,7 +110,7 @@ namespace XAML_Projektarbete
         private void CalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             Message.Text = string.Empty;
-            if (DatePicker.Date != null && CurrenciesFrom.SelectedItem != null)
+            if (DatePicker.Date != null)
             {
                 var dateTime = (DateTimeOffset)(DatePicker.Date).Value.Date;
                 if (dateTime != lastDateTime)

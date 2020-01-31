@@ -8,10 +8,10 @@ namespace XAML_Projektarbete.DataProvider
 {
     class HistoricalExchangeRateDataProvider
     {
-        private string apiKey = "37caa54a777a956b193b";
+        public static string ApiKey { get; set; }
         public async Task<Dictionary<string, double>> GetHistoricalExchangeRates(string fromCurrency, string toCurrency, string fromDate, string endDate)
         {
-            string URL = $"https://free.currconv.com/api/v7/convert?apiKey={apiKey}&q={fromCurrency}_{toCurrency}&compact=ultra&date={fromDate}&endDate={endDate}";
+            string URL = $"https://free.currconv.com/api/v7/convert?apiKey={ApiKey}&q={fromCurrency}_{toCurrency}&compact=ultra&date={fromDate}&endDate={endDate}";
             Dictionary<string, double> exchangeRatesDictionary = new Dictionary<string, double>();
             using (HttpResponseMessage response = await APIHelper.ApiClient.GetAsync(URL))
             {
