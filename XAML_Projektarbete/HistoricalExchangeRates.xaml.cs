@@ -9,28 +9,34 @@ namespace XAML_Projektarbete
 {
     public sealed partial class HistoricalExchangeRates : Page
     {
-        
-        string lastFromCurrency = string.Empty;
-        string lastToCurrency = string.Empty;
-        string lastDate = string.Empty;
         Dictionary<string, double> exchangeRates = new Dictionary<string, double>();
-        DateTimeOffset lastDateTime = new DateTimeOffset();
+        DateTimeOffset lastDateTimeFrom = new DateTimeOffset();
+        DateTimeOffset lastDateTimeTo = new DateTimeOffset();
+        DateTimeOffset dateTimeFrom = new DateTimeOffset();
+        DateTimeOffset dateTimeTo = new DateTimeOffset();
 
         public HistoricalExchangeRates()
         {
             this.InitializeComponent();
-            DatePicker.PlaceholderText = (DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day).ToString();
-            DatePicker.Date = DateTime.Now;
+            DatePickerFrom.Date = DateTime.Now.AddDays(-8);            
+            DatePickerFrom.PlaceholderText = DatePickerFrom.Date.ToString();
             getCurrencies();
         }
 
         private async void getCurrencies()
         {
             CurrencyDataProvider cdp = new CurrencyDataProvider();
-            var currencies = await cdp.GetCurrencies();
+            Dictionary<string, Models.Currency> currencies;
             ComboBoxItem currenciesFrom;
             ComboBoxItem currenciesTo;
-
+            try
+            {
+                currencies = await cdp.GetCurrencies();
+            }
+            catch
+            {
+                return;
+            }
             foreach (var cur in currencies.OrderBy(e => e.Value.CurrencyName))
             {
                 if (cur.Value.CurrencySymbol == null)
@@ -48,7 +54,6 @@ namespace XAML_Projektarbete
             }
             CurrenciesFrom.SelectedIndex = 156;
             CurrenciesTo.SelectedIndex = 143;
-            ListExchangeRates();
         }
 
         private void SwitchButton(object sender, RoutedEventArgs e)
@@ -56,44 +61,56 @@ namespace XAML_Projektarbete
             int currencyFrom = CurrenciesTo.SelectedIndex;
             CurrenciesTo.SelectedIndex = CurrenciesFrom.SelectedIndex;
             CurrenciesFrom.SelectedIndex = currencyFrom;
-            ListExchangeRates();
         }
-        
+
         private async void ListExchangeRates()
         {
             DateTimeOffset fromDateTime = new DateTimeOffset();
-            fromDateTime = (DatePicker.Date).Value.Date.AddDays(-8);
-            string fromDate = (fromDateTime.Year + "-" + fromDateTime.Month + "-" + fromDateTime.Day).ToString();
-            DateTimeOffset endDateTime = new DateTimeOffset();
-            endDateTime = (DatePicker.Date).Value.Date;
-            string endDate = (endDateTime.Year + "-" + endDateTime.Month + "-" + endDateTime.Day).ToString();
+            fromDateTime = (DatePickerFrom.Date).Value.Date;
+            string fromDate = string.Empty;
 
-            ComboBoxItem from = CurrenciesFrom.SelectedItem as ComboBoxItem;
+            DateTimeOffset toDateTime = new DateTimeOffset();
+            toDateTime = (DatePickerTo.Date).Value.Date;
+            string toDate = (toDateTime.Year + "-" + toDateTime.Month + "-" + toDateTime.Day).ToString();
+
+            int nrOfDaysToShow = (int)((dateTimeTo - dateTimeFrom).TotalDays);
+            int nrOfApiCalls = (int)Math.Ceiling(((dateTimeTo - dateTimeFrom).TotalDays + 1)/9);
+            ExchangeRates.Text = string.Empty;
+
             try
             {
+                ComboBoxItem from = CurrenciesFrom.SelectedItem as ComboBoxItem;
                 string fromCurrency = (from.Content as String).Substring(0, 3);
                 ComboBoxItem to = CurrenciesTo.SelectedItem as ComboBoxItem;
                 string toCurrency = (to.Content as String).Substring(0, 3);
-
                 HistoricalExchangeRateDataProvider cdp = new HistoricalExchangeRateDataProvider();
-                if ((fromCurrency != lastFromCurrency || toCurrency != lastToCurrency) || (endDate != lastDate))
+
+                for(int i = 0; i < nrOfApiCalls; i++)
                 {
-                    lastDate = endDate;
-                    exchangeRates = await cdp.GetHistoricalExchangeRates(fromCurrency, toCurrency, fromDate, endDate);
-                    lastFromCurrency = fromCurrency;
-                    lastToCurrency = toCurrency;
-                }
-                ExchangeRates.Text = string.Empty;
-                foreach (KeyValuePair<string, double> keyValuePair in exchangeRates)
-                {
-                    if (keyValuePair.Value >= 0.0001)
+                    if (nrOfDaysToShow < 9)
                     {
-                        ExchangeRates.Text = ExchangeRates.Text + (keyValuePair.Key + "  =  " + string.Format("{0:#,###0.000000}", keyValuePair.Value) + "  " + to.Content.ToString().Substring(0, 3) + "\n");
+                        fromDateTime = toDateTime.AddDays(- nrOfDaysToShow);
                     }
                     else
                     {
-                        ExchangeRates.Text = ExchangeRates.Text + (keyValuePair.Key + "  =  " + string.Format("{0:#,###0.000000000000}", keyValuePair.Value) + "  " + to.Content.ToString().Substring(0, 3) + "\n");
+                        fromDateTime = toDateTime.AddDays(-8);
+                        nrOfDaysToShow -= 9;
                     }
+                    fromDate = (fromDateTime.Year + "-" + fromDateTime.Month + "-" + fromDateTime.Day).ToString();
+                    exchangeRates = await cdp.GetHistoricalExchangeRates(fromCurrency, toCurrency, fromDate, toDate);
+                    foreach (KeyValuePair<string, double> keyValuePair in exchangeRates.Reverse())
+                    {
+                        if (keyValuePair.Value >= 0.0001)
+                        {
+                            ExchangeRates.Text = ExchangeRates.Text + (keyValuePair.Key + "  =  " + string.Format("{0:#,###0.000000}", keyValuePair.Value) + "  " + to.Content.ToString().Substring(0, 3) + "\n");
+                        }
+                        else
+                        {
+                            ExchangeRates.Text = ExchangeRates.Text + (keyValuePair.Key + "  =  " + string.Format("{0:#,###0.000000000000}", keyValuePair.Value) + "  " + to.Content.ToString().Substring(0, 3) + "\n");
+                        }
+                    }
+                    toDateTime = toDateTime.AddDays(-9);
+                    toDate = toDate = (toDateTime.Year + "-" + toDateTime.Month + "-" + toDateTime.Day).ToString();
                 }
             }
             catch
@@ -102,37 +119,80 @@ namespace XAML_Projektarbete
             }
         }
 
-        private void ChangeCurrency_OnDropDownClosed(object sender, object e)
+        private void CalendarDatePicker_DateFromChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
-            ListExchangeRates();
-        }
-
-        private void CalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
-        {
-            Message.Text = string.Empty;
-            if (DatePicker.Date != null)
+            if (DatePickerTo.Date == null)
             {
-                var dateTime = (DateTimeOffset)(DatePicker.Date).Value.Date;
-                if (dateTime != lastDateTime)
+                DatePickerTo.Date = DateTime.Now;
+                DatePickerTo.PlaceholderText = DatePickerTo.Date.ToString();
+            }
+            if (DatePickerFrom.Date != null)
+            {
+                dateTimeFrom = (DateTimeOffset)(DatePickerFrom.Date).Value.Date;
+                dateTimeTo = (DateTimeOffset)(DatePickerTo.Date).Value.Date;
+                if (dateTimeFrom != lastDateTimeFrom)
                 {
-                    if (dateTime < DateTime.Today.AddDays(-357))
+                    if (dateTimeFrom > dateTimeTo)
                     {
-                        dateTime = DateTime.Now.AddDays(-357);
-                        DatePicker.Date = dateTime;
-                        Message.Text = "Max 1 år bakåt";
+                        dateTimeFrom = dateTimeTo;
+                        MessageFrom.Text = "Datumet justerat";
                     }
-                    else if (dateTime > DateTime.Now)
+                    else if (dateTimeFrom < DateTime.Today.AddDays(-365))
                     {
-                        dateTime = DateTime.Today;
-                        DatePicker.Date = dateTime;
-                        Message.Text = "Dagens datum";
+                        dateTimeFrom = DateTime.Now.AddDays(-365);
+                        DatePickerFrom.Date = dateTimeFrom;
+                        MessageFrom.Text = "Max 1 år bakåt";
                     }
-                    lastDateTime = dateTime;
-                    string date = (dateTime.Year + "-" + dateTime.Month + "-" + dateTime.Day).ToString();
-                    DatePicker.PlaceholderText = date;
-                    ListExchangeRates();
+                    else
+                    {
+                        MessageFrom.Text = string.Empty;
+                    }
+                    lastDateTimeFrom = dateTimeFrom;
+                    DatePickerFrom.Date = dateTimeFrom;
                 }
             }
+            else
+            {
+                DatePickerFrom.Date = lastDateTimeFrom;
+            }
+        }
+
+        private void CalendarDatePicker_DateToChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {            
+            if (DatePickerTo.Date != null)
+            {
+                dateTimeTo = (DateTimeOffset)(DatePickerTo.Date).Value.Date;
+                dateTimeFrom = (DateTimeOffset)(DatePickerFrom.Date).Value.Date;
+                if (dateTimeTo != lastDateTimeTo)
+                {
+                    if (dateTimeTo < dateTimeFrom)
+                    {
+                        dateTimeTo = dateTimeFrom;
+                        MessageTo.Text = "Datumet justerat";
+                    }
+                    else if (dateTimeTo > DateTime.Now)
+                    {
+                        dateTimeTo = DateTime.Today;
+                        DatePickerTo.Date = dateTimeTo;
+                        MessageTo.Text = "Dagens datum";
+                    }
+                    else
+                    {
+                        MessageTo.Text = string.Empty;
+                    }
+                    lastDateTimeTo = dateTimeTo;
+                    DatePickerTo.Date = dateTimeTo;
+                }
+            }
+            else
+            {
+                DatePickerTo.Date = lastDateTimeTo;
+            }
+        }
+
+        private void Button_OnButtonClick(object sender, RoutedEventArgs e)
+        {
+            ListExchangeRates();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Windows.UI.Xaml;
@@ -64,7 +65,15 @@ namespace XAML_Projektarbete
         private async void getCurrencies()
         {
             CurrencyDataProvider cdp = new CurrencyDataProvider();
-            var currencies = await cdp.GetCurrencies();
+            Dictionary<string, Models.Currency> currencies;
+            try
+            {
+                currencies = await cdp.GetCurrencies();
+            }
+            catch
+            {
+                return;
+            }
             ComboBoxItem currenciesFrom;
             ComboBoxItem currenciesTo;
 

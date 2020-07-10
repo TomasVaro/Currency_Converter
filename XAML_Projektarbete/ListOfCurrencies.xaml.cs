@@ -18,8 +18,15 @@ namespace XAML_Projektarbete
         private async void getAllCurrencies()
         {
             CurrencyDataProvider cdp = new CurrencyDataProvider();
-            currencies = await cdp.GetCurrencies();
             ComboBoxItem currenciesAll;
+            try
+            {
+                currencies = await cdp.GetCurrencies();
+            }
+            catch
+            {
+                return;
+            }
 
             foreach (var cur in currencies.OrderBy(f => f.Value.CurrencyName))
             {

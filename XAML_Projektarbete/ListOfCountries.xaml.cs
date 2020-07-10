@@ -21,19 +21,19 @@ namespace XAML_Projektarbete
             try
             {
                 countries = await cdp.getAllCountriesUrl();
-                CountryName.SelectedIndex = 0;
-                var firstCounty = countries.OrderBy(kvp => kvp.Value.Name).First();
-
-                CountryCode.Text = firstCounty.Value.Alpha3;
-                CountryId.Text = firstCounty.Value.Id;
-                CurrencyName.Text = firstCounty.Value.CurrencyName;
-                CurrencyId.Text = firstCounty.Value.CurrencyId;
-                CurrencySymbol.Text = firstCounty.Value.CurrencySymbol;
             }
             catch
             {
                 return;
             }
+            CountryName.SelectedIndex = 0;
+            var firstCounty = countries.OrderBy(kvp => kvp.Value.Name).First();
+
+            CountryCode.Text = firstCounty.Value.Alpha3;
+            CountryId.Text = firstCounty.Value.Id;
+            CurrencyName.Text = firstCounty.Value.CurrencyName;
+            CurrencyId.Text = firstCounty.Value.CurrencyId;
+            CurrencySymbol.Text = firstCounty.Value.CurrencySymbol;
 
             ComboBoxItem countriesAll;
             foreach (var cur in countries.OrderBy(f => f.Value.Name))

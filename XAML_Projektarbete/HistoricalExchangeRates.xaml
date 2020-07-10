@@ -8,8 +8,9 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Margin="30">
+    <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -25,21 +26,19 @@
         <TextBlock Grid.Row="0"
                    Grid.Column="0"
                    Text="Från valuta" 
-                   FontSize="36"
-                   Margin="0, 0, 0, 10"/>
+                   FontSize="36"/>
         <TextBlock Grid.Row="0"
                    Grid.Column="3"
                    Text="Till valuta"
                    FontSize="36"/>
 
-         <!--Row 1 ComboBoxes & SwitchButton-->
+        <!--Row 1 ComboBoxes & SwitchButton-->
         <ComboBox x:Name="CurrenciesFrom"
                   Grid.Row="1"
                   Grid.Column="0"
                   Height="41"
                   FontSize="22"
-                  CornerRadius="10"
-                  DropDownClosed="ChangeCurrency_OnDropDownClosed"/>
+                  CornerRadius="10"/>
         <Button Click="SwitchButton"
                 Grid.Row="1"
                 Grid.Column="1"
@@ -48,39 +47,66 @@
                 Content="&#xF1CB;"
                 Margin="10 -5 10 0"
                 HorizontalAlignment="Center"
-                Background="White"
                 CornerRadius="10"/>
         <ComboBox x:Name="CurrenciesTo"
                   Grid.Row="1"
                   Grid.Column="3"
                   Height="41"
                   FontSize="22"
-                  CornerRadius="10"
-                  DropDownClosed="ChangeCurrency_OnDropDownClosed"/>
+                  CornerRadius="10"/>
 
         <!--Row 2 Message-->
-        <TextBlock x:Name="Message"
-                   Grid.Row="2"
+        <TextBlock Grid.Row="2"
                    Grid.Column="0"
-                   HorizontalAlignment="Center"
-                   FontSize="26"
-                   Margin="0 10 0 5"/>
+                   Text="Från datum" 
+                   FontSize="36"/>
+        <TextBlock Grid.Row="2"
+                   Grid.Column="3"
+                   Text="Till datum"
+                   FontSize="36"/>
 
-        <!--Row 3 CalendarPicker & Result-->
-        <CalendarDatePicker x:Name="DatePicker"
+        <!--Row 3 CalendarPickers & Button-->
+        <CalendarDatePicker x:Name="DatePickerFrom"
                             Grid.Row="3"
                             Grid.Column="0"
                             FontSize="30"
-                            HorizontalAlignment="Center"
                             DateFormat="{}{year.full}-{month.integer}-{day.integer}"
                             FirstDayOfWeek="Monday"
-                            DateChanged="CalendarDatePicker_DateChanged"
-                            VerticalAlignment="Top"/>
-        <ScrollViewer Grid.Row="3"
-                      Grid.Column="2">
+                            VerticalAlignment="Top"
+                            DateChanged="CalendarDatePicker_DateFromChanged"/>
+        <Button Grid.Row="3"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                FontSize="24"
+                Content="OK"
+                FontWeight="SemiBold"
+                CornerRadius="10"
+                Click="Button_OnButtonClick">            
+        </Button>
+        <CalendarDatePicker x:Name="DatePickerTo"
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            FontSize="30"
+                            DateFormat="{}{year.full}-{month.integer}-{day.integer}"
+                            FirstDayOfWeek="Monday"
+                            VerticalAlignment="Top"
+                            DateChanged="CalendarDatePicker_DateToChanged"/>
+
+        <!--Row 4 Result-->
+        <TextBlock x:Name="MessageFrom"
+                   Grid.Row="4"
+                   Grid.Column="0"
+                   FontSize="26"/>
+        <ScrollViewer Grid.Row="4"
+                      Grid.Column="1"
+                      Margin="0 10 0 0">
             <TextBlock x:Name="ExchangeRates"
-                       HorizontalAlignment="Stretch"
-                       FontSize="22"/>            
+                       FontSize="22"
+                       Margin="0 0 30 0"/>
         </ScrollViewer>
+        <TextBlock x:Name="MessageTo"
+                Grid.Row="4"
+                Grid.Column="2"
+                FontSize="26"/>
     </Grid>
 </Page>
