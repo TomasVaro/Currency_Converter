@@ -7,7 +7,8 @@ using XAML_Projektarbete.Models;
 namespace XAML_Projektarbete.DataProvider
 {
     class CurrencyDataProvider
-    {        public static string ApiKey { get; set; }
+    {
+        public static string ApiKey { get; set; }
         public async Task<Dictionary<string, Currency>> GetCurrencies()
         {
             string URL = $"https://free.currconv.com/api/v7/currencies?apiKey={ApiKey}";

@@ -21,9 +21,7 @@ namespace XAML_Projektarbete.DataProvider
     }
     class PropertSet : SetMemberBinder
     {
-        public PropertSet(string name, bool ignoreCase) : base(name, ignoreCase)
-        {
-        }
+        public PropertSet(string name, bool ignoreCase) : base(name, ignoreCase) { }
         public override DynamicMetaObject FallbackSetMember(DynamicMetaObject target, DynamicMetaObject value, DynamicMetaObject errorSuggestion)
         {
             throw new NotImplementedException();
@@ -31,9 +29,7 @@ namespace XAML_Projektarbete.DataProvider
     }
     class PropertyGet : GetMemberBinder
     {
-        public PropertyGet(string name, bool ignoreCase) : base(name, ignoreCase)
-        {
-        }
+        public PropertyGet(string name, bool ignoreCase) : base(name, ignoreCase) { }
         public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject errorSuggestion)
         {
             throw new NotImplementedException();
