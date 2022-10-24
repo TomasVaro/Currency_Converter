@@ -10,7 +10,7 @@ namespace XAML_Projektarbete
         {
             this.InitializeComponent();
             APIHelper.InitilizedClient();
-            string apiKey = "37caa54a777a956b193b";
+            string apiKey = "d402b63c2998b0fffd4a";
             CountryDataProvider.ApiKey = apiKey;
             CurrencyDataProvider.ApiKey = apiKey;
             ExchangeRateDataProvider.ApiKey = apiKey;
