@@ -18,6 +18,7 @@ namespace XAML_Projektarbete
             }
             catch { }
 
+            // Free API from https://www.currencyconverterapi.com/
             APIHelper.InitilizedClient();
             string apiKey = "03f573042565acb4a4f8";
             CountryDataProvider.ApiKey = apiKey;
